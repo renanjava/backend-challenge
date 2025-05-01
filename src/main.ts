@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { Logger, NotFoundException } from '@nestjs/common'
+import { Logger, NotFoundException, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 async function bootstrap() {
@@ -12,6 +12,12 @@ async function bootstrap() {
   if (!applicationPort) {
     throw new NotFoundException('Variável de ambiente PORT não definida')
   }
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  )
 
   await app.listen(applicationPort)
   Logger.log(`Server is running on port ${applicationPort}`, 'ApplicationPort')

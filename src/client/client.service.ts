@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { CreateClientDto } from './dto/create-client.dto'
 import { UpdateClientDto } from './dto/update-client.dto'
 import { ClientRepository } from './client.repository'
@@ -7,6 +11,15 @@ import { ClientRepository } from './client.repository'
 export class ClientService {
   constructor(private readonly clientRepository: ClientRepository) {}
   async create(createClientDto: CreateClientDto) {
+    const emailFounded = await this.clientRepository.client({
+      email: createClientDto.email,
+    })
+    if (emailFounded) {
+      throw new ConflictException(
+        `Email '${createClientDto.email}' já cadastrado`,
+      )
+    }
+
     return await this.clientRepository.createClient(createClientDto)
   }
 
@@ -24,10 +37,7 @@ export class ClientService {
   }
 
   async update(id: string, updateClientDto: UpdateClientDto) {
-    const clientFounded = await this.findOne(id)
-    if (!clientFounded) {
-      throw new NotFoundException('Cliente não encontrado')
-    }
+    await this.findOne(id)
 
     return await this.clientRepository.updateClient({
       where: { id: id },
@@ -36,11 +46,7 @@ export class ClientService {
   }
 
   async remove(id: string) {
-    const clientFounded = await this.findOne(id)
-    if (!clientFounded) {
-      throw new NotFoundException('Cliente não encontrado')
-    }
-
+    await this.findOne(id)
     return await this.clientRepository.deleteClient({ id: id })
   }
 }
