@@ -25,7 +25,7 @@ describe('Database Connection', () => {
 
     const result = await repository.createClient(mockClient)
 
-    expect(result).toHaveProperty('created_at')
+    expect(result).toHaveProperty('createdAt')
     expect(result.email).toBe(mockClient.email)
     expect(result.name).toBe(mockClient.name)
     expect(result.id).toBeTruthy()
