@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { DatabaseModule } from '@/config/database/database.module'
 import { ClientRepository } from '@/client/client.repository'
+import { execSync } from 'child_process'
 
 describe('Database Connection', () => {
   let repository: ClientRepository
 
   beforeEach(async () => {
+    execSync('npx prisma migrate deploy')
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule],
       providers: [ClientRepository],
