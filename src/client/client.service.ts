@@ -6,6 +6,8 @@ import {
 import { CreateClientDto } from './dto/create-client.dto'
 import { UpdateClientDto } from './dto/update-client.dto'
 import { ClientRepository } from './client.repository'
+import { ClienteNaoEncontradoException } from '@/exceptions/cliente-nao-encontrado.exception'
+import { EmailJaCadastradoException } from '@/exceptions/email-ja-cadastrado.exception'
 
 @Injectable()
 export class ClientService {
@@ -15,9 +17,7 @@ export class ClientService {
       email: createClientDto.email,
     })
     if (emailFounded) {
-      throw new ConflictException(
-        `Email '${createClientDto.email}' já cadastrado`,
-      )
+      throw new EmailJaCadastradoException(createClientDto.email)
     }
 
     return await this.clientRepository.createClient(createClientDto)
@@ -30,7 +30,7 @@ export class ClientService {
   async findOne(id: string) {
     const clientFounded = await this.clientRepository.client({ id: id })
     if (!clientFounded) {
-      throw new NotFoundException('Cliente não encontrado')
+      throw new ClienteNaoEncontradoException(id)
     }
 
     return clientFounded
