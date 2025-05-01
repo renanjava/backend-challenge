@@ -1,0 +1,39 @@
+name: 'Verificação básica de código'
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'feat/*'
+
+jobs:
+  basic-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Subir o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.12.2'
+
+      - name: Instalar as dependências
+        run: npm install
+
+      - name: Rodar o ESLint
+        run: npm run lint
+
+      - name: Rodar os testes unitários
+        run: npm run test:unit
+
+      - name: Buildar o Postgres
+        run: docker compose build postgres
+
+      - name: Subir o Postgres
+        run: docker compose up -d postgres
+
+      - name: Rodar os testes de integração
+        run: npm run test:int
+
+      - name: Parar o Postgres
+        run: docker compose down postgres
