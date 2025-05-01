@@ -29,7 +29,11 @@ export class ClientRepository {
       cursor,
       where,
       orderBy,
-      include: { documents: true },
+      include: {
+        _count: {
+          select: { documents: true },
+        },
+      },
     })
   }
 
