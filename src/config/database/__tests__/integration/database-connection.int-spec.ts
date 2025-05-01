@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { DatabaseModule } from '@/config/database/database.module'
-import { ClientRepository } from '@/client/client.repository'
+import { ClientRepository } from '@/repositories/client.repository'
 import { execSync } from 'child_process'
 
 describe('Database Connection', () => {

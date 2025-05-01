@@ -1,3 +1,8 @@
+enum SourceType {
+  PDF
+  WEB
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,8 +13,19 @@ datasource db {
 }
 
 model Client {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  created_at DateTime @default(now())
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  createdAt DateTime   @default(now()) @map("created_at")
+  documents Document[]
+}
+
+model Document {
+  id          String     @id @default(uuid())
+  title       String
+  content     String
+  processDate DateTime   @default(now()) @map("process_date")
+  sourceType  SourceType @map("source_type")
+  clientId    String     @map("client_id")
+  client      Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }

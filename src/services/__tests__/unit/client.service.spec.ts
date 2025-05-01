@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Test, TestingModule } from '@nestjs/testing'
 import { ClientService } from '../../client.service'
-import { ClientRepository } from '../../client.repository'
-import { ClienteNaoEncontradoException } from '@/exceptions/cliente-nao-encontrado.exception'
-import { EmailJaCadastradoException } from '@/exceptions/email-ja-cadastrado.exception'
+import { ClientRepository } from '../../../repositories/client.repository'
+import { ClienteNaoEncontradoException } from '@/errors/client/cliente-nao-encontrado.exception'
+import { EmailJaCadastradoException } from '@/errors/client/email-ja-cadastrado.exception'
 
 describe('ClientService', () => {
   let service: ClientService

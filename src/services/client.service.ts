@@ -3,11 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
-import { CreateClientDto } from './dto/create-client.dto'
-import { UpdateClientDto } from './dto/update-client.dto'
-import { ClientRepository } from './client.repository'
-import { ClienteNaoEncontradoException } from '@/exceptions/cliente-nao-encontrado.exception'
-import { EmailJaCadastradoException } from '@/exceptions/email-ja-cadastrado.exception'
+import { CreateClientDto } from '@/dtos/client/create-client.dto'
+import { UpdateClientDto } from '@/dtos/client/update-client.dto'
+import { ClientRepository } from '../repositories/client.repository'
+import { ClienteNaoEncontradoException } from '@/errors/client/cliente-nao-encontrado.exception'
+import { EmailJaCadastradoException } from '@/errors/client/email-ja-cadastrado.exception'
 
 @Injectable()
 export class ClientService {

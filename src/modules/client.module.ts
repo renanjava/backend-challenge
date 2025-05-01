@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ClientService } from './client.service'
-import { ClientController } from './client.controller'
-import { ClientRepository } from './client.repository'
+import { ClientService } from '../services/client.service'
+import { ClientController } from '../controllers/client.controller'
+import { ClientRepository } from '../repositories/client.repository'
 import { DatabaseModule } from '@/config/database/database.module'
 
 @Module({

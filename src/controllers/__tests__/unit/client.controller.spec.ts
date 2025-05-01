@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Test, TestingModule } from '@nestjs/testing'
 import { ClientController } from '../../client.controller'
-import { ClientService } from '../../client.service'
+import { ClientService } from '../../../services/client.service'
 
 describe('ClientController', () => {
   let controller: ClientController

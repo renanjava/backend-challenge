@@ -11,6 +11,7 @@ export class ClientRepository {
   ): Promise<Client | null> {
     return this.prisma.client.findUnique({
       where: ClientWhereUniqueInput,
+      include: { documents: true },
     })
   }
 
@@ -28,12 +29,14 @@ export class ClientRepository {
       cursor,
       where,
       orderBy,
+      include: { documents: true },
     })
   }
 
   async createClient(data: Prisma.ClientCreateInput): Promise<Client> {
     return this.prisma.client.create({
       data,
+      include: { documents: true },
     })
   }
 
@@ -51,6 +54,7 @@ export class ClientRepository {
   async deleteClient(where: Prisma.ClientWhereUniqueInput): Promise<Client> {
     return this.prisma.client.delete({
       where,
+      include: { documents: true },
     })
   }
 }
