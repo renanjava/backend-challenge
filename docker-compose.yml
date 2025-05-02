@@ -7,3 +7,25 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
     ports:
       - 5432:5432
+    networks:
+      - my-bridge
+
+  backend-challenge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      PORT: ${PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - postgres
+    networks:
+      - my-bridge
+
+networks:
+  my-bridge:
+    driver: bridge

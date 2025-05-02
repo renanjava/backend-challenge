@@ -19,7 +19,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:unit": "jest --runInBand --config ./jest.unit.config.ts",
     "test:int": "jest --runInBand --config ./jest.int.config.ts",
-    "docker:postgres": "docker compose up"
+    "docker:postgres": "docker compose up postgres",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up",
+    "docker:down": "docker compose down"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
@@ -31,7 +34,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/client": "^6.7.0",
     "axios": "^1.9.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
     "cheerio": "^1.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

@@ -2,7 +2,7 @@ import { Injectable /*, UnauthorizedException*/ } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { ClientRepository } from '@/repositories/client.repository'
 import { SignInDto } from '@/dtos/auth/sign-in.dto'
-import { Password } from '@/common/utils/Password'
+import { Password } from '@/common/utils/password'
 import { ClienteNaoEncontradoException } from '@/errors/client/cliente-nao-encontrado.exception'
 import { SenhaInvalidaException } from '@/errors/auth/senha-invalida.exception'
 

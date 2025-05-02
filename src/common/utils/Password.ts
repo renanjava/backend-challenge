@@ -1,6 +1,6 @@
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcryptjs'
 
-export abstract class Password {
+export class Password {
   public static async hash(password: string, salt: number): Promise<string> {
     return await bcrypt.hash(password, salt)
   }
