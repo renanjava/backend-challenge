@@ -5,11 +5,18 @@ import { DocumentRepository } from '@/repositories/document.repository'
 import { DatabaseModule } from '@/config/database/database.module'
 import { ClientModule } from './client.module'
 import { PdfProcessingService } from '@/services/pdf-processing.service'
+import { HttpModule } from '@nestjs/axios'
+import { WebProcessingService } from '@/services/web-processing.service'
 
 @Module({
-  imports: [DatabaseModule, ClientModule],
+  imports: [DatabaseModule, ClientModule, HttpModule],
   controllers: [DocumentController],
-  providers: [DocumentService, DocumentRepository, PdfProcessingService],
+  providers: [
+    DocumentService,
+    DocumentRepository,
+    PdfProcessingService,
+    WebProcessingService,
+  ],
   exports: [DocumentRepository],
 })
 export class DocumentModule {}

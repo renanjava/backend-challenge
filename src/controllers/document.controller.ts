@@ -15,12 +15,15 @@ import { UpdateDocumentDto } from '@/dtos/document/update-document.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { PdfProcessingService } from '@/services/pdf-processing.service'
 import { ClientService } from '@/services/client.service'
+import { WebDocumentDto } from '@/dtos/document/web-document.dto'
+import { WebProcessingService } from '@/services/web-processing.service'
 
 @Controller('document')
 export class DocumentController {
   constructor(
     private readonly documentService: DocumentService,
     private readonly pdfProcessingService: PdfProcessingService,
+    private readonly webProcessingService: WebProcessingService,
     private readonly clientService: ClientService,
   ) {}
 
@@ -39,8 +42,22 @@ export class DocumentController {
       await this.pdfProcessingService.extractTitleAndContent(file)
 
     await this.clientService.findOne(clientId)
-
     return await this.documentService.createPdfDocument(
+      { title, content },
+      clientId,
+    )
+  }
+
+  @Post('web/:id')
+  async createWebDocument(
+    @Body() webDocumentDto: WebDocumentDto,
+    @Param('id') clientId: string,
+  ) {
+    const { title, content } =
+      await this.webProcessingService.extractTitleAndContent(webDocumentDto.url)
+
+    await this.clientService.findOne(clientId)
+    return await this.documentService.createWebDocument(
       { title, content },
       clientId,
     )

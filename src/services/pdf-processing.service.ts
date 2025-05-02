@@ -1,15 +1,13 @@
-import { DocumentRepository } from '@/repositories/document.repository'
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { ClientService } from './client.service'
 import pdfParse from 'pdf-parse'
+import ProcessingDocument from '../document/processing-document.interface'
+import { ExtractedDocumentProps } from '@/document/extracted-document.props'
 
 @Injectable()
-export class PdfProcessingService {
-  constructor(
-    private readonly documentRepository: DocumentRepository,
-    private readonly clientService: ClientService,
-  ) {}
-  async extractTitleAndContent(file: Express.Multer.File) {
+export class PdfProcessingService implements ProcessingDocument {
+  async extractTitleAndContent(
+    file: Express.Multer.File,
+  ): Promise<ExtractedDocumentProps> {
     if (!file.mimetype || file.mimetype !== 'application/pdf') {
       throw new BadRequestException(
         `O arquivo enviado não é um PDF válido. Tipo recebido: ${file.mimetype}`,
@@ -28,6 +26,6 @@ export class PdfProcessingService {
       throw new BadRequestException('O PDF não contém um título válido.')
     }
 
-    return { title, content }
+    return { title, content } as ExtractedDocumentProps
   }
 }

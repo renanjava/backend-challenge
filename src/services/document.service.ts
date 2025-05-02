@@ -26,6 +26,17 @@ export class DocumentService {
     return await this.create(createDocumentDto)
   }
 
+  async createWebDocument({ title, content }, clientId: string) {
+    const createDocumentDto: CreateDocumentDto = {
+      title,
+      content,
+      clientId,
+      sourceType: 'WEB',
+    }
+
+    return await this.create(createDocumentDto)
+  }
+
   async findAll() {
     return await this.documentRepository.documents({})
   }
