@@ -1,6 +1,10 @@
 import { Injectable /*, UnauthorizedException*/ } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { ClientRepository } from '@/repositories/client.repository'
+import { SignInDto } from '@/dtos/auth/sign-in.dto'
+import { Password } from '@/common/utils/Password'
+import { ClienteNaoEncontradoException } from '@/errors/client/cliente-nao-encontrado.exception'
+import { SenhaInvalidaException } from '@/errors/auth/senha-invalida.exception'
 
 @Injectable()
 export class AuthService {
@@ -8,24 +12,27 @@ export class AuthService {
     private clientRepository: ClientRepository,
     private jwtService: JwtService,
   ) {}
-  /*
-  async signIn(
-    name: string,
-    password: string,
-  ): Promise<{ access_token: string }> {
-    
+
+  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const client = await this.clientRepository.client({
-      name: name,
-      password: password,
+      email: signInDto.email,
     })
 
-    if (client?.email !== email) {
-      throw new UnauthorizedException()
+    if (!client) {
+      throw new ClienteNaoEncontradoException(signInDto.email)
+    }
+
+    const passwordIsValid = await Password.compare(
+      signInDto.password,
+      client.password,
+    )
+
+    if (!passwordIsValid) {
+      throw new SenhaInvalidaException()
     }
     const payload = { sub: client.id, username: client.name }
     return {
       access_token: await this.jwtService.signAsync(payload),
     }
   }
-    */
 }

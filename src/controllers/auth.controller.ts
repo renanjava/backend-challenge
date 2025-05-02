@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { SignInDto } from '@/dtos/auth/sign-in.dto'
 import { AuthService } from '@/services/auth.service'
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import { Body, Controller, Post } from '@nestjs/common'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    //return this.authService.signIn(signInDto.username, signInDto.password)
+  async login(@Body() signInDto: SignInDto) {
+    return await this.authService.signIn(signInDto)
   }
 }
