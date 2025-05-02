@@ -3,6 +3,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { ClientController } from '../../client.controller'
 import { ClientService } from '../../../services/client.service'
+import { JwtModule } from '@nestjs/jwt'
+import { ConfigModule } from '@nestjs/config'
+import { DocumentService } from '@/services/document.service'
+import { DocumentRepository } from '@/repositories/document.repository'
+import { DatabaseModule } from '@/modules/database.module'
 
 describe('ClientController', () => {
   let controller: ClientController
@@ -10,8 +15,11 @@ describe('ClientController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [JwtModule, ConfigModule, DatabaseModule],
       controllers: [ClientController],
       providers: [
+        DocumentService,
+        DocumentRepository,
         {
           provide: ClientService,
           useValue: {
@@ -26,7 +34,11 @@ describe('ClientController', () => {
     }).compile()
 
     controller = module.get<ClientController>(ClientController)
-    service = module.get(ClientService)
+    service = module.get<jest.Mocked<ClientService>>(ClientService)
+  })
+
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   it('should be defined', () => {

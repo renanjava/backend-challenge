@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { DocumentService } from '@/services/document.service'
 import { DocumentController } from '@/controllers/document.controller'
 import { DocumentRepository } from '@/repositories/document.repository'
@@ -11,7 +11,13 @@ import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [DatabaseModule, ClientModule, HttpModule, JwtModule, ConfigModule],
+  imports: [
+    DatabaseModule,
+    forwardRef(() => ClientModule),
+    HttpModule,
+    JwtModule,
+    ConfigModule,
+  ],
   controllers: [DocumentController],
   providers: [
     DocumentService,
@@ -19,6 +25,6 @@ import { ConfigModule } from '@nestjs/config'
     PdfProcessingService,
     WebProcessingService,
   ],
-  exports: [DocumentRepository],
+  exports: [DocumentRepository, DocumentService],
 })
 export class DocumentModule {}

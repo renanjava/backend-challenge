@@ -65,7 +65,7 @@ export class DocumentController {
 
   @Get()
   async findAll() {
-    return await this.documentService.findAll()
+    return await this.documentService.findAll({})
   }
 
   @Get(':id')

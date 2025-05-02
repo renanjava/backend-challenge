@@ -37,8 +37,8 @@ export class DocumentService {
     return await this.create(createDocumentDto)
   }
 
-  async findAll() {
-    return await this.documentRepository.documents({})
+  async findAll(data: any) {
+    return await this.documentRepository.documents({ where: data })
   }
 
   async findOne(id: string) {

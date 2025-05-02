@@ -61,9 +61,9 @@ describe('DocumentService', () => {
       const documents = [{ id: '1', title: 'Test Document' }]
       repository.documents.mockResolvedValue(documents as any)
 
-      const result = await service.findAll()
+      const result = await service.findAll({})
 
-      expect(repository.documents).toHaveBeenCalledWith({})
+      expect(repository.documents).toHaveBeenCalledWith({ where: {} })
       expect(result).toEqual(documents)
     })
   })

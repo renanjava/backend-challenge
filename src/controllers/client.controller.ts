@@ -7,15 +7,23 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
 } from '@nestjs/common'
 import { ClientService } from '../services/client.service'
 import { CreateClientDto } from '@/dtos/client/create-client.dto'
 import { UpdateClientDto } from '@/dtos/client/update-client.dto'
 import { HashPasswordPipe } from '@/common/pipes/hash-password.pipe'
+import { DocumentService } from '@/services/document.service'
+import { UserRequest } from '@/contracts/user-request.interface'
+import { AuthGuard } from '@/common/guards/auth.guard'
 
 @Controller('client')
 export class ClientController {
-  constructor(private readonly clientService: ClientService) {}
+  constructor(
+    private readonly clientService: ClientService,
+    private readonly documentService: DocumentService,
+  ) {}
 
   @Post()
   async create(
@@ -26,6 +34,12 @@ export class ClientController {
       ...createClientDto,
       password: hashedPassword,
     })
+  }
+
+  @Get('/documents')
+  @UseGuards(AuthGuard)
+  async findAllDocumentsByClient(@Req() request: UserRequest) {
+    return await this.documentService.findAll({ clientId: request.user.sub })
   }
 
   @Get()
