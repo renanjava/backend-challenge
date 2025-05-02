@@ -6,6 +6,8 @@ import { DocumentController } from '../../document.controller'
 import { DocumentService } from '../../../services/document.service'
 import { PdfProcessingService } from '../../../services/pdf-processing.service'
 import { ClientService } from '../../../services/client.service'
+import { WebProcessingService } from '@/services/web-processing.service'
+import { HttpModule } from '@nestjs/axios'
 
 describe('DocumentController', () => {
   let controller: DocumentController
@@ -15,8 +17,10 @@ describe('DocumentController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [HttpModule],
       controllers: [DocumentController],
       providers: [
+        WebProcessingService,
         {
           provide: DocumentService,
           useValue: {
