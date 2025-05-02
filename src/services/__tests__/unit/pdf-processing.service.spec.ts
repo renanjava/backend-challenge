@@ -5,6 +5,7 @@ import { DocumentModule } from '@/modules/document.module'
 import { ClientModule } from '@/modules/client.module'
 import { DocumentoPdfInvalidoException } from '@/errors/document/documento-pdf-invalido.exception'
 import { DocumentoConteudoInvalidoException } from '@/errors/document/documento-conteudo-invalido.exception'
+import { ConfigModule } from '@nestjs/config'
 
 jest.mock('pdf-parse', () => ({
   __esModule: true,
@@ -20,7 +21,7 @@ describe('PdfProcessingService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [DocumentModule, ClientModule],
+      imports: [DocumentModule, ClientModule, ConfigModule],
       providers: [PdfProcessingService],
     }).compile()
 

@@ -8,15 +8,18 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
+  Req,
 } from '@nestjs/common'
 import { DocumentService } from '../services/document.service'
-import { CreateDocumentDto } from '@/dtos/document/create-document.dto'
 import { UpdateDocumentDto } from '@/dtos/document/update-document.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { PdfProcessingService } from '@/services/pdf-processing.service'
 import { ClientService } from '@/services/client.service'
 import { WebDocumentDto } from '@/dtos/document/web-document.dto'
 import { WebProcessingService } from '@/services/web-processing.service'
+import { AuthGuard } from '@/common/guards/auth.guard'
+import { UserRequest } from '@/contracts/user-request.interface'
 
 @Controller('document')
 export class DocumentController {
@@ -27,39 +30,36 @@ export class DocumentController {
     private readonly clientService: ClientService,
   ) {}
 
-  @Post()
-  async create(@Body() createDocumentDto: CreateDocumentDto) {
-    return await this.documentService.create(createDocumentDto)
-  }
-
-  @Post('pdf/:id')
+  @Post('pdf')
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   async createPdfDocument(
     @UploadedFile() file: Express.Multer.File,
-    @Param('id') clientId: string,
+    @Req() request: UserRequest,
   ) {
     const { title, content } =
       await this.pdfProcessingService.extractTitleAndContent(file)
 
-    await this.clientService.findOne(clientId)
+    await this.clientService.findOne(request.user.sub)
     return await this.documentService.createPdfDocument(
       { title, content },
-      clientId,
+      request.user.sub,
     )
   }
 
-  @Post('web/:id')
+  @Post('web')
+  @UseGuards(AuthGuard)
   async createWebDocument(
     @Body() webDocumentDto: WebDocumentDto,
-    @Param('id') clientId: string,
+    @Req() request: UserRequest,
   ) {
     const { title, content } =
       await this.webProcessingService.extractTitleAndContent(webDocumentDto.url)
 
-    await this.clientService.findOne(clientId)
+    await this.clientService.findOne(request.user.sub)
     return await this.documentService.createWebDocument(
       { title, content },
-      clientId,
+      request.user.sub,
     )
   }
 

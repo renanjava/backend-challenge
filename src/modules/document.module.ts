@@ -7,9 +7,11 @@ import { ClientModule } from './client.module'
 import { PdfProcessingService } from '@/services/pdf-processing.service'
 import { HttpModule } from '@nestjs/axios'
 import { WebProcessingService } from '@/services/web-processing.service'
+import { JwtModule } from '@nestjs/jwt'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [DatabaseModule, ClientModule, HttpModule],
+  imports: [DatabaseModule, ClientModule, HttpModule, JwtModule, ConfigModule],
   controllers: [DocumentController],
   providers: [
     DocumentService,
