@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { CreateClientDto } from '@/dtos/client/create-client.dto'
 import { UpdateClientDto } from '@/dtos/client/update-client.dto'
 import { ClientRepository } from '../repositories/client.repository'

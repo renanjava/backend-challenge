@@ -8,5 +8,6 @@ import { DatabaseModule } from '@/config/database/database.module'
   imports: [DatabaseModule],
   controllers: [ClientController],
   providers: [ClientService, ClientRepository],
+  exports: [ClientService],
 })
 export class ClientModule {}

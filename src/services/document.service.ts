@@ -15,6 +15,17 @@ export class DocumentService {
     })
   }
 
+  async createPdfDocument({ title, content }, clientId: string) {
+    const createDocumentDto: CreateDocumentDto = {
+      title,
+      content,
+      clientId,
+      sourceType: 'PDF',
+    }
+
+    return await this.create(createDocumentDto)
+  }
+
   async findAll() {
     return await this.documentRepository.documents({})
   }

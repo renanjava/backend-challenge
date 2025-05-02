@@ -3,10 +3,12 @@ import { DocumentService } from '@/services/document.service'
 import { DocumentController } from '@/controllers/document.controller'
 import { DocumentRepository } from '@/repositories/document.repository'
 import { DatabaseModule } from '@/config/database/database.module'
+import { ClientModule } from './client.module'
+import { PdfProcessingService } from '@/services/pdf-processing.service'
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, ClientModule],
   controllers: [DocumentController],
-  providers: [DocumentService, DocumentRepository],
+  providers: [DocumentService, DocumentRepository, PdfProcessingService],
 })
 export class DocumentModule {}
