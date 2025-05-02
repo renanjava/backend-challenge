@@ -10,5 +10,6 @@ import { PdfProcessingService } from '@/services/pdf-processing.service'
   imports: [DatabaseModule, ClientModule],
   controllers: [DocumentController],
   providers: [DocumentService, DocumentRepository, PdfProcessingService],
+  exports: [DocumentRepository],
 })
 export class DocumentModule {}
