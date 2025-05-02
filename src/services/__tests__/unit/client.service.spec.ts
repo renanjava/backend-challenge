@@ -37,7 +37,11 @@ describe('ClientService', () => {
 
   describe('create', () => {
     it('should create a client successfully', async () => {
-      const createClientDto = { email: 'test@example.com', name: 'Test' }
+      const createClientDto = {
+        email: 'test@example.com',
+        name: 'Test',
+        password: 'password-example',
+      }
       repository.client.mockResolvedValue(null)
       repository.createClient.mockResolvedValue(createClientDto as any)
 
@@ -51,7 +55,11 @@ describe('ClientService', () => {
     })
 
     it('should throw EmailJaCadastradoException if email already exists', async () => {
-      const createClientDto = { email: 'test@example.com', name: 'Test' }
+      const createClientDto = {
+        email: 'test@example.com',
+        name: 'Test',
+        password: 'password-example',
+      }
       repository.client.mockResolvedValue(createClientDto as any)
 
       await expect(service.create(createClientDto)).rejects.toThrow(
@@ -67,14 +75,25 @@ describe('ClientService', () => {
       repository.client.mockRejectedValue(new Error('DB failure'))
 
       await expect(
-        service.create({ email: 'fail@test.com', name: 'Fail' }),
+        service.create({
+          email: 'fail@test.com',
+          name: 'Fail',
+          password: 'password-example',
+        }),
       ).rejects.toThrow('DB failure')
     })
   })
 
   describe('findAll', () => {
     it('should return all clients', async () => {
-      const clients = [{ id: '1', name: 'Test', email: 'test@example.com' }]
+      const clients = [
+        {
+          id: '1',
+          name: 'Test',
+          email: 'test@example.com',
+          password: 'password-example',
+        },
+      ]
       repository.clients.mockResolvedValue(clients as any)
 
       const result = await service.findAll()
@@ -86,7 +105,12 @@ describe('ClientService', () => {
 
   describe('findOne', () => {
     it('should return a client by id', async () => {
-      const client = { id: '1', name: 'Test', email: 'test@example.com' }
+      const client = {
+        id: '1',
+        name: 'Test',
+        email: 'test@example.com',
+        password: 'password-example',
+      }
       repository.client.mockResolvedValue(client as any)
 
       const result = await service.findOne('1')
@@ -108,7 +132,12 @@ describe('ClientService', () => {
   describe('update', () => {
     it('should update a client successfully', async () => {
       const updateClientDto = { name: 'Updated Name' }
-      const client = { id: '1', name: 'Test', email: 'test@example.com' }
+      const client = {
+        id: '1',
+        name: 'Test',
+        email: 'test@example.com',
+        password: 'password-example',
+      }
       repository.client.mockResolvedValue(client as any)
       repository.updateClient.mockResolvedValue({
         ...client,
@@ -138,7 +167,12 @@ describe('ClientService', () => {
 
   describe('remove', () => {
     it('should remove a client successfully', async () => {
-      const client = { id: '1', name: 'Test', email: 'test@example.com' }
+      const client = {
+        id: '1',
+        name: 'Test',
+        email: 'test@example.com',
+        password: 'password-example',
+      }
       repository.client.mockResolvedValue(client as any)
       repository.deleteClient.mockResolvedValue(client as any)
 

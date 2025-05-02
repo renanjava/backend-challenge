@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import pdfParse from 'pdf-parse'
-import ProcessingDocument from '../document/processing-document.interface'
-import { ExtractedDocumentProps } from '@/document/extracted-document.props'
+import ProcessingDocument from '../contracts/processing-document.interface'
+import { ExtractedDocumentProps } from '@/contracts/extracted-document.props'
 
 @Injectable()
 export class PdfProcessingService implements ProcessingDocument {

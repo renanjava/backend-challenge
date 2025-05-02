@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Test, TestingModule } from '@nestjs/testing'
 import { ClientRepository } from '../../client.repository'
-import { DatabaseModule } from '@/config/database/database.module'
+import { DatabaseModule } from '@/modules/database.module'
 
 describe('ClientRepository', () => {
   let repository: ClientRepository
@@ -21,7 +21,12 @@ describe('ClientRepository', () => {
 
   describe('client', () => {
     it('should find a client by criteria', async () => {
-      const mockClient = { id: '1', email: 'test@example.com', name: 'Test' }
+      const mockClient = {
+        id: '1',
+        email: 'test@example.com',
+        name: 'Test',
+        password: 'Password',
+      }
       jest.spyOn(repository, 'client').mockResolvedValue(mockClient as any)
 
       const result = await repository.client({ email: 'test@example.com' })
@@ -40,7 +45,14 @@ describe('ClientRepository', () => {
 
   describe('clients', () => {
     it('should return all clients', async () => {
-      const mockClients = [{ id: '1', email: 'test@example.com', name: 'Test' }]
+      const mockClients = [
+        {
+          id: '1',
+          email: 'test@example.com',
+          name: 'Test',
+          password: 'Password',
+        },
+      ]
       jest.spyOn(repository, 'clients').mockResolvedValue(mockClients as any)
 
       const result = await repository.clients({})
@@ -59,7 +71,12 @@ describe('ClientRepository', () => {
 
   describe('createClient', () => {
     it('should create a new client', async () => {
-      const mockClient = { id: '1', email: 'test@example.com', name: 'Test' }
+      const mockClient = {
+        id: '1',
+        email: 'test@example.com',
+        name: 'Test',
+        password: 'Password',
+      }
       jest
         .spyOn(repository, 'createClient')
         .mockResolvedValue(mockClient as any)
@@ -75,7 +92,11 @@ describe('ClientRepository', () => {
         .mockRejectedValue(new Error('DB error'))
 
       await expect(
-        repository.createClient({ name: 'Test', email: 'fail@example.com' }),
+        repository.createClient({
+          name: 'Test',
+          email: 'fail@example.com',
+          password: 'Password',
+        }),
       ).rejects.toThrow('DB error')
     })
   })
@@ -86,6 +107,7 @@ describe('ClientRepository', () => {
         id: '1',
         email: 'test@example.com',
         name: 'Updated Name',
+        password: 'Password',
       }
       jest
         .spyOn(repository, 'updateClient')
@@ -112,7 +134,12 @@ describe('ClientRepository', () => {
 
   describe('deleteClient', () => {
     it('should delete a client', async () => {
-      const deletedClient = { id: '1', email: 'test@example.com', name: 'Test' }
+      const deletedClient = {
+        id: '1',
+        email: 'test@example.com',
+        name: 'Test',
+        password: 'Password',
+      }
       jest
         .spyOn(repository, 'deleteClient')
         .mockResolvedValue(deletedClient as any)

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { DocumentRepository } from '../../document.repository'
-import { DatabaseModule } from '@/config/database/database.module'
+import { DatabaseModule } from '@/modules/database.module'
 
 describe('DocumentRepository', () => {
   let repository: DocumentRepository

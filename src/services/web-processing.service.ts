@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { ExtractedDocumentProps } from '@/document/extracted-document.props'
-import ProcessingDocument from '@/document/processing-document.interface'
+import { ExtractedDocumentProps } from '@/contracts/extracted-document.props'
+import ProcessingDocument from '@/contracts/processing-document.interface'
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { lastValueFrom } from 'rxjs'

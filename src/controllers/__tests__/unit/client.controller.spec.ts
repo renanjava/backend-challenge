@@ -35,13 +35,19 @@ describe('ClientController', () => {
 
   describe('create', () => {
     it('should call service.create and return the result', async () => {
-      const dto = { email: 'test@example.com', name: 'Test' }
+      const dto = {
+        email: 'test@example.com',
+        name: 'Test',
+      } as any
       const createdClient = { id: '1', ...dto }
-      service.create.mockResolvedValue(createdClient as any)
+      service.create.mockResolvedValue(createdClient)
 
-      const result = await controller.create(dto)
+      const result = await controller.create(dto, 'hashedPassword')
 
-      expect(service.create).toHaveBeenCalledWith(dto)
+      expect(service.create).toHaveBeenCalledWith({
+        ...dto,
+        password: 'hashedPassword',
+      })
       expect(result).toEqual(createdClient)
     })
 
@@ -49,7 +55,10 @@ describe('ClientController', () => {
       service.create.mockRejectedValue(new Error('Create failed'))
 
       await expect(
-        controller.create({ email: 'fail@test.com', name: 'Fail' }),
+        controller.create(
+          { email: 'fail@test.com', name: 'Fail' } as any,
+          'hashedPassword',
+        ),
       ).rejects.toThrow('Create failed')
     })
   })

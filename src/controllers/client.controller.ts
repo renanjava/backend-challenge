@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -10,14 +11,21 @@ import {
 import { ClientService } from '../services/client.service'
 import { CreateClientDto } from '@/dtos/client/create-client.dto'
 import { UpdateClientDto } from '@/dtos/client/update-client.dto'
+import { HashPasswordPipe } from '@/common/pipes/hash-password.pipe'
 
 @Controller('client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post()
-  async create(@Body() createClientDto: CreateClientDto) {
-    return await this.clientService.create(createClientDto)
+  async create(
+    @Body() { password, ...createClientDto }: CreateClientDto,
+    @Body('password', HashPasswordPipe) hashedPassword: string,
+  ) {
+    return await this.clientService.create({
+      ...createClientDto,
+      password: hashedPassword,
+    })
   }
 
   @Get()
