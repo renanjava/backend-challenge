@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PdfProcessingService } from '../../pdf-processing.service'
-import { BadRequestException } from '@nestjs/common'
 import * as pdfParse from 'pdf-parse'
 import { DocumentModule } from '@/modules/document.module'
 import { ClientModule } from '@/modules/client.module'
+import { DocumentoPdfInvalidoException } from '@/errors/document/documento-pdf-invalido.exception'
+import { DocumentoConteudoInvalidoException } from '@/errors/document/documento-conteudo-invalido.exception'
 
 jest.mock('pdf-parse', () => ({
   __esModule: true,
@@ -61,7 +62,7 @@ describe('PdfProcessingService', () => {
       } as Express.Multer.File
 
       await expect(service.extractTitleAndContent(file)).rejects.toThrow(
-        BadRequestException,
+        DocumentoPdfInvalidoException,
       )
     })
 
@@ -77,7 +78,7 @@ describe('PdfProcessingService', () => {
       mockPdfParse(pdfData)
 
       await expect(service.extractTitleAndContent(file)).rejects.toThrow(
-        BadRequestException,
+        DocumentoConteudoInvalidoException,
       )
     })
   })

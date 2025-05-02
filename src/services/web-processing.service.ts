@@ -5,6 +5,8 @@ import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { lastValueFrom } from 'rxjs'
 import * as cheerio from 'cheerio'
+import { DocumentoTituloInvalidoException } from '@/errors/document/documento-titulo-invalido.exception'
+import { DocumentoConteudoInvalidoException } from '@/errors/document/documento-conteudo-invalido.exception'
 
 @Injectable()
 export class WebProcessingService implements ProcessingDocument {
@@ -16,6 +18,15 @@ export class WebProcessingService implements ProcessingDocument {
 
     const title = $('title').text()
     const content = $('body').text()
+
+    if (!content || content.trim() === '') {
+      throw new DocumentoConteudoInvalidoException()
+    }
+
+    if (!title || title.trim() === 'Título não encontrado') {
+      throw new DocumentoTituloInvalidoException()
+    }
+
     return { title, content }
   }
 }
