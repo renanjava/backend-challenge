@@ -36,10 +36,22 @@ export class ClientController {
     })
   }
 
-  @Get('/documents')
+  @Get('/document')
   @UseGuards(AuthGuard)
   async findAllDocumentsByClient(@Req() request: UserRequest) {
     return await this.documentService.findAll({ clientId: request.user.sub })
+  }
+
+  @Get('/document/:id')
+  @UseGuards(AuthGuard)
+  async findOneDocumentByClient(
+    @Param('id') id: string,
+    @Req() request: UserRequest,
+  ) {
+    return await this.documentService.findAll({
+      id: id,
+      clientId: request.user.sub,
+    })
   }
 
   @Get()
