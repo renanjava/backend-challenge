@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { ClienteNaoEncontradoError } from '@/application/errors/client/cliente-nao-encontrado.error'
+import { SenhaInvalidaError } from '@/application/errors/auth/senha-invalida.error'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -20,6 +21,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof ClienteNaoEncontradoError) {
       status = HttpStatus.NOT_FOUND
+      message = exception.message
+    }
+
+    if (exception instanceof SenhaInvalidaError) {
+      status = HttpStatus.UNAUTHORIZED
       message = exception.message
     }
 
