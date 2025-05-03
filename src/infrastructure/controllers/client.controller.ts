@@ -4,8 +4,8 @@ import { CreateClientDto } from '@/infrastructure/dtos/client/create-client.dto'
 import { UpdateClientDto } from '@/infrastructure/dtos/client/update-client.dto'
 import { HashPasswordPipe } from '@/infrastructure/common/pipes/hash-password.pipe'
 import { DocumentService } from '@/infrastructure/services/document.service'
-import { UserRequest } from '@/application/contracts/user-request.interface'
-import { AuthGuard } from '@/infrastructure/common/guards/auth.guard'
+import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
+import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
 import {
   Controller,
   Get,

@@ -1,4 +1,4 @@
-import { UserPayload } from '@/application/contracts/user-payload.props'
+import { UserPayload } from '@/application/controllers/user-payload.props'
 import { Request } from 'express'
 
 export interface UserRequest extends Request {

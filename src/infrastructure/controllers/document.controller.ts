@@ -4,8 +4,8 @@ import { PdfProcessingService } from '@/infrastructure/services/pdf-processing.s
 import { ClientService } from '@/infrastructure/services/client.service'
 import { WebDocumentDto } from '@/infrastructure/dtos/document/web-document.dto'
 import { WebProcessingService } from '@/infrastructure/services/web-processing.service'
-import { AuthGuard } from '@/infrastructure/common/guards/auth.guard'
-import { UserRequest } from '@/application/contracts/user-request.interface'
+import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
+import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
 import {
   Controller,
   Get,

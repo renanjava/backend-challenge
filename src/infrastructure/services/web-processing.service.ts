@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { ExtractedDocumentProps } from '@/application/contracts/extracted-document.props'
-import ProcessingDocument from '@/application/contracts/processing-document.interface'
+import { ExtractedDocumentProps } from '@/application/services/extracted-document.props'
+import ProcessingDocument from '@/application/services/processing-document.interface'
 import { DocumentoTituloInvalidoException } from '@/infrastructure/errors/document/documento-titulo-invalido.exception'
 import { DocumentoConteudoInvalidoException } from '@/infrastructure/errors/document/documento-conteudo-invalido.exception'
 import { HttpService } from '@nestjs/axios'

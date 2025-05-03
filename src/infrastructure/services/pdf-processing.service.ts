@@ -1,5 +1,5 @@
-import ProcessingDocument from '@/application/contracts/processing-document.interface'
-import { ExtractedDocumentProps } from '@/application/contracts/extracted-document.props'
+import ProcessingDocument from '@/application/services/processing-document.interface'
+import { ExtractedDocumentProps } from '@/application/services/extracted-document.props'
 import { DocumentoConteudoInvalidoException } from '@/infrastructure/errors/document/documento-conteudo-invalido.exception'
 import { DocumentoTituloInvalidoException } from '@/infrastructure/errors/document/documento-titulo-invalido.exception'
 import { DocumentoPdfInvalidoException } from '@/infrastructure/errors/document/documento-pdf-invalido.exception'
