@@ -18,7 +18,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:unit": "jest --runInBand --config ./jest.unit.config.ts",
     "test:int": "jest --runInBand --config ./jest.int.config.ts",
-    "docker:postgres": "docker compose up postgres",
+    "docker:up:postgres": "docker compose up -d postgres",
+    "docker:down:postgres": "docker compose down postgres",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up",
     "docker:down": "docker compose down"
