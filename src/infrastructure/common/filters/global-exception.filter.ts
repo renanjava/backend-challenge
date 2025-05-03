@@ -13,6 +13,7 @@ import {
 import { Request, Response } from 'express'
 import { EmailJaCadastradoError } from '@/application/errors/client/email-ja-cadastrado.error'
 import { TokenInvalidoError } from '@/application/errors/auth/token-invalido.error'
+import { DocumentoNaoEncontradoError } from '@/application/errors/documents/documento-nao-encontrado.error'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -56,6 +57,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof DocumentoConteudoInvalidoError) {
       status = HttpStatus.BAD_REQUEST
+      message = exception.message
+    }
+
+    if (exception instanceof DocumentoNaoEncontradoError) {
+      status = HttpStatus.NOT_FOUND
       message = exception.message
     }
 

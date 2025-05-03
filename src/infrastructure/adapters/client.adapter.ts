@@ -9,6 +9,6 @@ export abstract class ClientAdapter {
   }
 
   static updateDtoToInput(dto: UpdateClientDto): UpdateClientInput {
-    return new UpdateClientInput(dto.email, dto.name, dto.password)
+    return new UpdateClientInput(dto.name, dto.email, dto.password)
   }
 }

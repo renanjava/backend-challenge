@@ -6,6 +6,8 @@ import { HashPasswordPipe } from '@/infrastructure/common/pipes/hash-password.pi
 import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
 import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
 import { DocumentUseCasesFactory } from '@/infrastructure/factories/document-use-cases.factory'
+import { CreateClientAdapterPipe } from '@/infrastructure/common/pipes/create-client-adapter.pipe'
+import { ClientAdapter } from '@/infrastructure/adapters/client.adapter'
 import {
   Controller,
   Get,
@@ -17,15 +19,10 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
-import { IClientController } from '@/application/controllers/client-controller.interface'
-import { ClientEntity } from '@/domain/entities/client.entity'
-import { CreateClientAdapterPipe } from '../common/pipes/create-client-adapter.pipe'
-import { UpdateClientAdapterPipe } from '../common/pipes/update-client-adapter.pipe'
 
 @Controller('client')
-export class ClientController
-  implements IClientController<ClientEntity, CreateClientDto, UpdateClientDto>
-{
+/*implements IClientController<ClientEntity, CreateClientDto, UpdateClientDto>*/
+export class ClientController {
   constructor(
     private readonly clientUseCasesFactory: ClientUseCasesFactory,
     private readonly documentUseCasesFactory: DocumentUseCasesFactory,
@@ -84,12 +81,15 @@ export class ClientController
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body(UpdateClientAdapterPipe) updateClientDto: UpdateClientDto,
+    @Body() updateClientDto: UpdateClientDto,
   ) {
     await this.findOne(id)
     const updateClientUseCase =
       this.clientUseCasesFactory.getUpdateClientUseCaseInstance()
-    return await updateClientUseCase.execute(id, updateClientDto)
+    return await updateClientUseCase.execute(
+      id,
+      ClientAdapter.updateDtoToInput(updateClientDto),
+    )
   }
 
   @Delete(':id')
