@@ -1,9 +1,13 @@
-import { Password } from '@/infrastructure/common/utils/Password'
-import { Injectable, PipeTransform } from '@nestjs/common'
+import { IPasswordHashing } from '@/application/common/utils/password-hashing.interface'
+import { Inject, Injectable, PipeTransform } from '@nestjs/common'
 
 @Injectable()
 export class HashPasswordPipe implements PipeTransform {
+  constructor(
+    @Inject('BcryptImpl')
+    private readonly passwordHashing: IPasswordHashing,
+  ) {}
   async transform(password: string) {
-    return await Password.hash(password, 10)
+    return await this.passwordHashing.hash(password, 10)
   }
 }

@@ -1,4 +1,3 @@
-import { ClientService } from '@/infrastructure/services/client.service'
 import { ClientController } from '@/infrastructure/controllers/client.controller'
 import { ClientRepository } from '@/infrastructure/repositories/client.repository'
 import { DatabaseModule } from '@/infrastructure/modules/database.module'
@@ -7,6 +6,7 @@ import { ConfigModule } from '@nestjs/config'
 import { forwardRef, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { ClientUseCasesFactory } from '../factories/client-use-cases.factory'
+import { BcryptImpl } from '../common/utils/bcrypt-impl'
 
 @Module({
   imports: [
@@ -17,11 +17,12 @@ import { ClientUseCasesFactory } from '../factories/client-use-cases.factory'
   ],
   controllers: [ClientController],
   providers: [
-    ClientService,
     ClientRepository,
     ClientUseCasesFactory,
+    BcryptImpl,
     { provide: 'ClientRepositoryImpl', useExisting: ClientRepository },
+    { provide: 'BcryptImpl', useExisting: BcryptImpl },
   ],
-  exports: [ClientService, ClientRepository, ClientUseCasesFactory],
+  exports: [ClientRepository, ClientUseCasesFactory],
 })
 export class ClientModule {}

@@ -3,10 +3,8 @@ import { ClientUseCasesFactory } from '@/infrastructure/factories/client-use-cas
 import { CreateClientDto } from '@/infrastructure/dtos/client/create-client.dto'
 import { UpdateClientDto } from '@/infrastructure/dtos/client/update-client.dto'
 import { HashPasswordPipe } from '@/infrastructure/common/pipes/hash-password.pipe'
-import { DocumentService } from '@/infrastructure/services/document.service'
 import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
 import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
-import { ClientService } from '@/infrastructure/services/client.service'
 import { DocumentUseCasesFactory } from '@/infrastructure/factories/document-use-cases.factory'
 import {
   Controller,
@@ -29,8 +27,6 @@ export class ClientController
   implements IClientController<ClientEntity, CreateClientDto, UpdateClientDto>
 {
   constructor(
-    private readonly documentService: DocumentService,
-    private readonly clientService: ClientService,
     private readonly clientUseCasesFactory: ClientUseCasesFactory,
     private readonly documentUseCasesFactory: DocumentUseCasesFactory,
   ) {}

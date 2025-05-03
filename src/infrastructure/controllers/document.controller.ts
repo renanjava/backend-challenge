@@ -1,7 +1,5 @@
 import { DocumentUseCasesFactory } from '../factories/document-use-cases.factory'
-import { DocumentService } from '@/infrastructure/services/document.service'
 import { UpdateDocumentDto } from '@/infrastructure/dtos/document/update-document.dto'
-import { ClientService } from '@/infrastructure/services/client.service'
 import { WebDocumentDto } from '@/infrastructure/dtos/document/web-document.dto'
 import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
 import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
@@ -30,8 +28,6 @@ export class DocumentController
     IDocumentController<WebDocumentDto, UpdateDocumentDto, DocumentEntity>
 {
   constructor(
-    private readonly documentService: DocumentService,
-    private readonly clientService: ClientService,
     private readonly clientUseCasesFactory: ClientUseCasesFactory,
     private readonly documentUseCasesFactory: DocumentUseCasesFactory,
   ) {}

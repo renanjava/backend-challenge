@@ -1,5 +1,4 @@
 import { AuthController } from '@/infrastructure/controllers/auth.controller'
-import { AuthService } from '@/infrastructure/services/auth.service'
 import { ClientModule } from '@/infrastructure/modules/client.module'
 import { BcryptImpl } from '@/infrastructure/common/utils/bcrypt-impl'
 import { AuthUseCasesFactory } from '@/infrastructure/factories/auth-use-cases.factory'
@@ -23,11 +22,12 @@ import { Module } from '@nestjs/common'
   ],
   controllers: [AuthController],
   providers: [
-    AuthService,
     AuthUseCasesFactory,
+    BcryptImpl,
     { provide: 'ClientRepositoryImpl', useExisting: ClientRepository },
     { provide: 'JwtServiceImpl', useExisting: JwtService },
-    { provide: 'BcryptImpl', useClass: BcryptImpl },
+    { provide: 'BcryptImpl', useExisting: BcryptImpl },
   ],
+  exports: [BcryptImpl],
 })
 export class AuthModule {}

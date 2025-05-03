@@ -1,10 +1,7 @@
-import { DocumentService } from '@/infrastructure/services/document.service'
 import { DocumentController } from '@/infrastructure/controllers/document.controller'
 import { DocumentRepository } from '@/infrastructure/repositories/document.repository'
 import { DatabaseModule } from '@/infrastructure/modules/database.module'
 import { ClientModule } from '@/infrastructure/modules/client.module'
-import { PdfProcessingService } from '@/infrastructure/services/pdf-processing.service'
-import { WebProcessingService } from '@/infrastructure/services/web-processing.service'
 import { PdfParseImpl } from '@/infrastructure/common/utils/pdf-parse-impl'
 import { DocumentUseCasesFactory } from '@/infrastructure/factories/document-use-cases.factory'
 import { RxjsImpl } from '@/infrastructure/common/utils/rxjs-impl'
@@ -25,10 +22,7 @@ import { forwardRef, Module } from '@nestjs/common'
   ],
   controllers: [DocumentController],
   providers: [
-    DocumentService,
     DocumentRepository,
-    PdfProcessingService,
-    WebProcessingService,
     DocumentUseCasesFactory,
     PdfParseImpl,
     { provide: 'PdfParseImpl', useExisting: PdfParseImpl },
@@ -37,11 +31,6 @@ import { forwardRef, Module } from '@nestjs/common'
     { provide: 'CheerioImpl', useClass: CheerioImpl },
     { provide: 'DocumentRepositoryImpl', useExisting: DocumentRepository },
   ],
-  exports: [
-    DocumentRepository,
-    DocumentService,
-    DocumentUseCasesFactory,
-    PdfParseImpl,
-  ],
+  exports: [DocumentRepository, DocumentUseCasesFactory, PdfParseImpl],
 })
 export class DocumentModule {}
