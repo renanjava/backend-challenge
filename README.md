@@ -23,6 +23,22 @@ Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas 
 
 ---
 
+## 🚀 Tecnologias Utilizadas
+
+- **Linguagem**: TypeScript
+- **Framework**: NestJS
+- **ORM**: Prisma
+- **Autenticação**: JWT e Bcrypt
+- **Validação de Dados**: Class Validator
+- **Tranformação de Dados**: Class Transform
+- **Testes**: Jest e Supertest
+- **Containerização**: Docker
+- **Web Scraping**: Cheerio
+- **Processamento de PDFs**: PDF-Parse
+- **CI/CD**: Github Actions
+
+---
+
 ## 🔥 Stack Utilizada
 
 - **Node.js**: v20.12.2
@@ -32,29 +48,15 @@ Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas 
 - **JWT**: v11.0.0
 - **Class-validator**: v0.14.1
 - **Class-transformer**: v0.5.1
-- **Bcrypt**: v3.0.2
+- **Bcryptjs**: v3.0.2
 - **Cheerio**: v1.0.0
 - **Axios**: v1.9.0
-- **Prettier**: v3.4.2
 - **Docker**: v26.1.1
 - **Jest**: v29.7.0
 - **Supertest**: v7.0.0
 - **ESLint**: v9.18.0
 - **Prettier**: v3.4.2
-
----
-
-## 🚀 Tecnologias Utilizadas
-
-- **Linguagem**: TypeScript
-- **Framework**: NestJS
-- **ORM**: Prisma
-- **Autenticação**: JWT e Bcrypt
-- **Validação de Dados**: Class Validator
-- **Testes**: Jest e Supertest
-- **Containerização**: Docker
-- **Web Scraping**: Cheerio
-- **Processamento de PDFs**: PDF-Parse
+- **Rxjs**: v7.8.1
 
 ---
 
@@ -174,13 +176,15 @@ Após iniciar a aplicação, ela estará disponível em **http://localhost:3000/
 
   - Lista todos os documentos associados ao cliente autenticado.
   - **Headers**:
-    - `Authorization`: Token JWT válido.
+    - `Authorization`: Token JWT válido, usado para autorizar e obter o ID do cliente.
   - **Resposta**:
     - `documents`: Lista de documentos pertencentes ao cliente autenticado.
 
 - **GET /client/document/:id**:
 
   - Retorna um documento específico do cliente autenticado.
+  - **Headers**:
+    - `Authorization`: Token JWT válido, usado para autorizar e obter o ID do cliente.
   - **Parâmetros**:
     - `id`: ID do documento.
   - **Headers**:
@@ -194,7 +198,7 @@ Após iniciar a aplicação, ela estará disponível em **http://localhost:3000/
 
   - Faz upload de um PDF, processa o conteúdo e associa a um cliente.
   - **Headers**:
-    - `Authorization`: Token JWT válido, usado para obter o ID do cliente.
+    - `Authorization`: Token JWT válido, usado para autorizar e obter o ID do cliente.
   - **Body**:
     - `file`: Arquivo PDF.
   - **Resposta**:
@@ -204,7 +208,7 @@ Após iniciar a aplicação, ela estará disponível em **http://localhost:3000/
 
   - Processa uma página web a partir de uma URL e associa a um cliente.
   - **Headers**:
-    - `Authorization`: Token JWT válido, usado para obter o ID do cliente.
+    - `Authorization`: Token JWT válido, usado para autorizar e obter o ID do cliente.
   - **Body**:
     - `url`: URL da página web a ser processada.
   - **Resposta**:

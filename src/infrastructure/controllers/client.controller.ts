@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ClientService } from '@/infrastructure/services/client.service'
+import { ClientUseCasesFactory } from '@/infrastructure/factories/client-use-cases.factory'
 import { CreateClientDto } from '@/infrastructure/dtos/client/create-client.dto'
 import { UpdateClientDto } from '@/infrastructure/dtos/client/update-client.dto'
 import { HashPasswordPipe } from '@/infrastructure/common/pipes/hash-password.pipe'
 import { DocumentService } from '@/infrastructure/services/document.service'
 import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
 import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
+import { ClientService } from '@/infrastructure/services/client.service'
+import { DocumentUseCasesFactory } from '@/infrastructure/factories/document-use-cases.factory'
 import {
   Controller,
   Get,
@@ -21,8 +23,10 @@ import {
 @Controller('client')
 export class ClientController {
   constructor(
-    private readonly clientService: ClientService,
     private readonly documentService: DocumentService,
+    private readonly clientService: ClientService,
+    private readonly clientUseCasesFactory: ClientUseCasesFactory,
+    private readonly documentUseCasesFactory: DocumentUseCasesFactory,
   ) {}
 
   @Post()
@@ -30,7 +34,9 @@ export class ClientController {
     @Body() { password, ...createClientDto }: CreateClientDto,
     @Body('password', HashPasswordPipe) hashedPassword: string,
   ) {
-    return await this.clientService.create({
+    const createClientUseCase =
+      this.clientUseCasesFactory.getCreateClientUseCaseInstance()
+    return await createClientUseCase.execute({
       ...createClientDto,
       password: hashedPassword,
     })
@@ -39,7 +45,9 @@ export class ClientController {
   @Get('/document')
   @UseGuards(AuthGuard)
   async findAllDocumentsByClient(@Req() request: UserRequest) {
-    return await this.documentService.findAll({ clientId: request.user.sub })
+    const findAllDocumentsUseCase =
+      this.documentUseCasesFactory.getFindAllDocumentsUseCaseInstance()
+    return await findAllDocumentsUseCase.execute({ clientId: request.user.sub })
   }
 
   @Get('/document/:id')
@@ -48,29 +56,44 @@ export class ClientController {
     @Param('id') id: string,
     @Req() request: UserRequest,
   ) {
-    return await this.documentService.findAll({
+    const findAllDocumentsUseCase =
+      this.documentUseCasesFactory.getFindAllDocumentsUseCaseInstance()
+    return await findAllDocumentsUseCase.execute({
       id: id,
       clientId: request.user.sub,
     })
   }
 
   @Get()
-  findAll() {
-    return this.clientService.findAll()
+  async findAll() {
+    const findAllClientsUseCase =
+      this.clientUseCasesFactory.getFindAllClientsUseCaseInstance()
+    return await findAllClientsUseCase.execute()
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientService.findOne(id)
+  async findOne(@Param('id') id: string) {
+    const findOneClientUseCase =
+      this.clientUseCasesFactory.getFindOneClientUseCaseInstance()
+    return await findOneClientUseCase.execute(id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientService.update(id, updateClientDto)
+  async update(
+    @Param('id') id: string,
+    @Body() updateClientDto: UpdateClientDto,
+  ) {
+    await this.findOne(id)
+    const updateClientUseCase =
+      this.clientUseCasesFactory.getUpdateClientUseCaseInstance()
+    return await updateClientUseCase.execute(id, updateClientDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clientService.remove(id)
+  async remove(@Param('id') id: string) {
+    await this.findOne(id)
+    const removeClientUseCase =
+      this.clientUseCasesFactory.getRemoveClientUseCaseInstance()
+    return await removeClientUseCase.execute(id)
   }
 }

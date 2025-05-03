@@ -1,10 +1,11 @@
-import { DocumentUseCasesFactory } from './../factories/documents/document-use-cases.factory'
+import { DocumentUseCasesFactory } from '../factories/document-use-cases.factory'
 import { DocumentService } from '@/infrastructure/services/document.service'
 import { UpdateDocumentDto } from '@/infrastructure/dtos/document/update-document.dto'
 import { ClientService } from '@/infrastructure/services/client.service'
 import { WebDocumentDto } from '@/infrastructure/dtos/document/web-document.dto'
 import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
 import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
+import { ClientUseCasesFactory } from '@/infrastructure/factories/client-use-cases.factory'
 import {
   Controller,
   Get,
@@ -25,6 +26,7 @@ export class DocumentController {
   constructor(
     private readonly documentService: DocumentService,
     private readonly clientService: ClientService,
+    private readonly clientUseCasesFactory: ClientUseCasesFactory,
     private readonly documentUseCasesFactory: DocumentUseCasesFactory,
   ) {}
 
@@ -39,11 +41,18 @@ export class DocumentController {
       this.documentUseCasesFactory.getPdfProcessingUseCaseInstance()
     const { title, content } = await pdfProcessingUseCase.execute(file)
 
-    await this.clientService.findOne(request.user.sub)
-    return await this.documentService.createPdfDocument(
-      { title, content },
-      request.user.sub,
-    )
+    const findOneClientUseCase =
+      this.clientUseCasesFactory.getFindOneClientUseCaseInstance()
+    await findOneClientUseCase.execute(request.user.sub)
+
+    const createDocumentUseCase =
+      this.documentUseCasesFactory.getCreateDocumentUseCaseInstance()
+    return await createDocumentUseCase.execute({
+      title: title,
+      content: content,
+      sourceType: 'WEB',
+      clientId: request.user.sub,
+    })
   }
 
   @Post('web')
@@ -58,21 +67,32 @@ export class DocumentController {
       webDocumentDto.url,
     )
 
-    await this.clientService.findOne(request.user.sub)
-    return await this.documentService.createWebDocument(
-      { title, content },
-      request.user.sub,
-    )
+    const findOneClientUseCase =
+      this.clientUseCasesFactory.getFindOneClientUseCaseInstance()
+    await findOneClientUseCase.execute(request.user.sub)
+
+    const createDocumentUseCase =
+      this.documentUseCasesFactory.getCreateDocumentUseCaseInstance()
+    return await createDocumentUseCase.execute({
+      title: title,
+      content: content,
+      sourceType: 'PDF',
+      clientId: request.user.sub,
+    })
   }
 
   @Get()
   async findAll() {
-    return await this.documentService.findAll({})
+    const findAllDocumentsUseCase =
+      this.documentUseCasesFactory.getFindAllDocumentsUseCaseInstance()
+    return await findAllDocumentsUseCase.execute({})
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.documentService.findOne(id)
+    const findOneDocumentUseCase =
+      this.documentUseCasesFactory.getFindOneDocumentUseCaseInstance()
+    return await findOneDocumentUseCase.execute(id)
   }
 
   @Patch(':id')
@@ -80,11 +100,17 @@ export class DocumentController {
     @Param('id') id: string,
     @Body() updateDocumentDto: UpdateDocumentDto,
   ) {
-    return await this.documentService.update(id, updateDocumentDto)
+    await this.findOne(id)
+    const updateDocumentUseCase =
+      this.documentUseCasesFactory.getUpdateDocumentUseCaseInstance()
+    return await updateDocumentUseCase.execute(id, updateDocumentDto)
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.documentService.remove(id)
+    await this.findOne(id)
+    const removeDocumentUseCase =
+      this.documentUseCasesFactory.getRemoveDocumentUseCaseInstance()
+    return await removeDocumentUseCase.execute(id)
   }
 }

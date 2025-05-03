@@ -9,6 +9,7 @@ import { HttpModule } from '@nestjs/axios'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { DocumentModule } from '@/infrastructure/modules/document.module'
+import { ClientModule } from '@/infrastructure/modules/client.module'
 
 describe('DocumentController', () => {
   let controller: DocumentController
@@ -18,7 +19,13 @@ describe('DocumentController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule, JwtModule, ConfigModule, DocumentModule],
+      imports: [
+        HttpModule,
+        JwtModule,
+        ConfigModule,
+        DocumentModule,
+        ClientModule,
+      ],
       controllers: [DocumentController],
       providers: [
         WebProcessingService,

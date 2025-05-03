@@ -8,6 +8,8 @@ import { DatabaseModule } from '@/infrastructure/modules/database.module'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
+import { ClientUseCasesFactory } from '@/infrastructure/factories/client-use-cases.factory'
+import { ClientRepository } from '@/infrastructure/repositories/client.repository'
 
 describe('ClientController', () => {
   let controller: ClientController
@@ -20,6 +22,9 @@ describe('ClientController', () => {
       providers: [
         DocumentService,
         DocumentRepository,
+        ClientUseCasesFactory,
+        ClientRepository,
+        { provide: 'ClientRepositoryImpl', useExisting: ClientRepository },
         {
           provide: ClientService,
           useValue: {

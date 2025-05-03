@@ -11,6 +11,7 @@ import {
   HttpException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
+import { EmailJaCadastradoError } from '@/application/errors/client/email-ja-cadastrado.exception'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -24,6 +25,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof ClienteNaoEncontradoError) {
       status = HttpStatus.NOT_FOUND
+      message = exception.message
+    }
+
+    if (exception instanceof EmailJaCadastradoError) {
+      status = HttpStatus.CONFLICT
       message = exception.message
     }
 

@@ -14,4 +14,16 @@ export class CreateDocumentDto implements DocumentEntity {
 
   @IsUUID(undefined, { message: 'Tipo de id inválido' })
   clientId: string
+
+  constructor(
+    title: string,
+    content: string,
+    sourceType: $Enums.SourceType,
+    clientId: string,
+  ) {
+    this.title = title
+    this.content = content
+    this.sourceType = sourceType
+    this.clientId = clientId
+  }
 }

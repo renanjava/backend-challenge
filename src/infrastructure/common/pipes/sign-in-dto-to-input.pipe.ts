@@ -1,5 +1,5 @@
 import { SignInDto } from '@/infrastructure/dtos/auth/sign-in.dto'
-import { SignInAdapter } from '@/infrastructure/adapters/auth/sign-in.adapter'
+import { SignInAdapter } from '@/infrastructure/adapters/sign-in.adapter'
 import { Injectable, PipeTransform } from '@nestjs/common'
 
 @Injectable()

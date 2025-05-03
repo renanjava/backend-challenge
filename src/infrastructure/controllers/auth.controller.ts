@@ -1,7 +1,7 @@
 import { AcessToken } from '@/application/services/acess-token.interface'
 import { IAuthController } from '@/application/controllers/auth-controller.interface'
 import { SignInDto } from '@/infrastructure/dtos/auth/sign-in.dto'
-import { AuthUseCasesFactory } from '@/infrastructure/factories/auth/auth-use-cases.factory'
+import { AuthUseCasesFactory } from '@/infrastructure/factories/auth-use-cases.factory'
 import { SignInDtoToInputPipe } from '@/infrastructure/common/pipes/sign-in-dto-to-input.pipe'
 import { Body, Controller, Post } from '@nestjs/common'
 

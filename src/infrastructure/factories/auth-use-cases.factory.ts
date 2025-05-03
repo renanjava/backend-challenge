@@ -8,9 +8,9 @@ import { Inject, Injectable } from '@nestjs/common'
 @Injectable()
 export class AuthUseCasesFactory {
   constructor(
-    @Inject('ClientRepository')
+    @Inject('ClientRepositoryImpl')
     private readonly clientRepository: IClientRepository<ClientEntity>,
-    @Inject('JwtService')
+    @Inject('JwtServiceImpl')
     private readonly jwtService: ITokenGenerate,
     @Inject('BcryptImpl')
     private readonly passwordHashing: IPasswordHashing,

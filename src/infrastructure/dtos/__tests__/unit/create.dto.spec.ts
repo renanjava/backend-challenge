@@ -4,11 +4,7 @@ import { validate } from 'class-validator'
 
 describe('DTO Validation', () => {
   it('should validate CreateDocumentDto', async () => {
-    const dto = new CreateDocumentDto()
-    dto.title = 'Test'
-    dto.content = 'Content'
-    dto.sourceType = 'PDF' as any
-    dto.clientId = 'invalid-uuid'
+    const dto = new CreateDocumentDto('Test', 'Content', 'PDF', 'invalid-uuid')
 
     const errors = await validate(dto)
     expect(errors.length).toBeGreaterThan(0)

@@ -6,6 +6,7 @@ import { DocumentModule } from '@/infrastructure/modules/document.module'
 import { ConfigModule } from '@nestjs/config'
 import { forwardRef, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
+import { ClientUseCasesFactory } from '../factories/client-use-cases.factory'
 
 @Module({
   imports: [
@@ -15,7 +16,12 @@ import { JwtModule } from '@nestjs/jwt'
     ConfigModule,
   ],
   controllers: [ClientController],
-  providers: [ClientService, ClientRepository],
-  exports: [ClientService, ClientRepository],
+  providers: [
+    ClientService,
+    ClientRepository,
+    ClientUseCasesFactory,
+    { provide: 'ClientRepositoryImpl', useExisting: ClientRepository },
+  ],
+  exports: [ClientService, ClientRepository, ClientUseCasesFactory],
 })
 export class ClientModule {}
