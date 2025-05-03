@@ -2,7 +2,7 @@ import { UserPayload } from '@/application/controllers/user-payload.props'
 import { IUseCase } from '@/application/usecases/use-case.interface'
 import { IClientRepository } from '@/domain/repositories/client.repository'
 import { ClientEntity } from '@/domain/entities/client.entity'
-import { IJwtService } from '@/application/services/jwt-service.interface'
+import { ITokenGenerate } from '@/application/services/token-generate.interface'
 import { AcessToken } from '@/application/services/acess-token.interface'
 import { IPasswordHashing } from '@/application/common/utils/password-hashing.interface'
 import { ClienteNaoEncontradoError } from '@/application/errors/client/cliente-nao-encontrado.error'
@@ -12,7 +12,7 @@ import { SignInInput } from '@/application/dtos/auth/sign-in.input'
 export class SignInUseCase implements IUseCase {
   constructor(
     private readonly clientRepository: IClientRepository<ClientEntity>,
-    private readonly jwtService: IJwtService,
+    private readonly jwtService: ITokenGenerate,
     private readonly passwordHashing: IPasswordHashing,
   ) {}
   async execute(signInInput: SignInInput): Promise<AcessToken> {

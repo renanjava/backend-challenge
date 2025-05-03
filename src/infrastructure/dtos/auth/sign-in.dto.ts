@@ -1,6 +1,7 @@
+import { SignInInput } from '@/application/dtos/auth/sign-in.input'
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 
-export class SignInDto {
+export class SignInDto implements SignInInput {
   @IsEmail({}, { message: 'O email está em um formato inválido' })
   @IsNotEmpty({ message: 'O email é obrigatório' })
   email: string

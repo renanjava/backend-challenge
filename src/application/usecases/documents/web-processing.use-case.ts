@@ -1,5 +1,5 @@
 import { IHttpService } from '@/application/common/utils/http-service.interface'
-import { IRxjs } from '@/application/common/utils/rxjs.interface'
+import { IObservableToPromise } from '@/application/common/utils/observable-to-promise.interface'
 import { IWebProcessing } from '@/application/common/utils/web-processing.interface'
 import { DocumentoConteudoInvalidoError } from '@/application/errors/documents/documento-conteudo-invalido.error'
 import { DocumentoTituloInvalidoError } from '@/application/errors/documents/documento-titulo-invalido.error'
@@ -10,10 +10,12 @@ export class WebProcessingUseCase implements IUseCase {
   constructor(
     private readonly webProcessing: IWebProcessing,
     private readonly httpService: IHttpService,
-    private readonly rxjs: IRxjs,
+    private readonly observableToPromise: IObservableToPromise,
   ) {}
   async execute(url: string): Promise<ExtractedDocumentProps> {
-    const response = await this.rxjs.lastValueFrom(this.httpService.get(url))
+    const response = await this.observableToPromise.parse(
+      this.httpService.get(url),
+    )
 
     const $ = this.webProcessing.load(response.data)
 

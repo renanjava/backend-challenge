@@ -1,5 +1,5 @@
 import { IPasswordHashing } from '@/application/common/utils/password-hashing.interface'
-import { IJwtService } from '@/application/services/jwt-service.interface'
+import { ITokenGenerate } from '@/application/services/token-generate.interface'
 import { SignInUseCase } from '@/application/usecases/auth/sign-in.use-case'
 import { ClientEntity } from '@/domain/entities/client.entity'
 import { IClientRepository } from '@/domain/repositories/client.repository'
@@ -11,8 +11,8 @@ export class AuthUseCasesFactory {
     @Inject('ClientRepository')
     private readonly clientRepository: IClientRepository<ClientEntity>,
     @Inject('JwtService')
-    private readonly jwtService: IJwtService,
-    @Inject('BcryptPassword')
+    private readonly jwtService: ITokenGenerate,
+    @Inject('BcryptImpl')
     private readonly passwordHashing: IPasswordHashing,
   ) {}
 
