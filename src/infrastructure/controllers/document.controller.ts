@@ -1,9 +1,8 @@
+import { DocumentUseCasesFactory } from './../factories/documents/document-use-cases.factory'
 import { DocumentService } from '@/infrastructure/services/document.service'
 import { UpdateDocumentDto } from '@/infrastructure/dtos/document/update-document.dto'
-import { PdfProcessingService } from '@/infrastructure/services/pdf-processing.service'
 import { ClientService } from '@/infrastructure/services/client.service'
 import { WebDocumentDto } from '@/infrastructure/dtos/document/web-document.dto'
-import { WebProcessingService } from '@/infrastructure/services/web-processing.service'
 import { AuthGuard } from '@/infrastructure/auth/guards/auth.guard'
 import { UserRequest } from '@/infrastructure/auth/interfaces/user-request.interface'
 import {
@@ -25,9 +24,8 @@ import { FileInterceptor } from '@nestjs/platform-express'
 export class DocumentController {
   constructor(
     private readonly documentService: DocumentService,
-    private readonly pdfProcessingService: PdfProcessingService,
-    private readonly webProcessingService: WebProcessingService,
     private readonly clientService: ClientService,
+    private readonly documentUseCasesFactory: DocumentUseCasesFactory,
   ) {}
 
   @Post('pdf')
@@ -37,8 +35,9 @@ export class DocumentController {
     @UploadedFile() file: Express.Multer.File,
     @Req() request: UserRequest,
   ) {
-    const { title, content } =
-      await this.pdfProcessingService.extractTitleAndContent(file)
+    const pdfProcessingUseCase =
+      this.documentUseCasesFactory.getPdfProcessingUseCaseInstance()
+    const { title, content } = await pdfProcessingUseCase.execute(file)
 
     await this.clientService.findOne(request.user.sub)
     return await this.documentService.createPdfDocument(
@@ -53,8 +52,11 @@ export class DocumentController {
     @Body() webDocumentDto: WebDocumentDto,
     @Req() request: UserRequest,
   ) {
-    const { title, content } =
-      await this.webProcessingService.extractTitleAndContent(webDocumentDto.url)
+    const webProcessingUseCase =
+      this.documentUseCasesFactory.getWebProcessingUseCaseInstance()
+    const { title, content } = await webProcessingUseCase.execute(
+      webDocumentDto.url,
+    )
 
     await this.clientService.findOne(request.user.sub)
     return await this.documentService.createWebDocument(

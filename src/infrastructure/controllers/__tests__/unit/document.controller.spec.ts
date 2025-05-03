@@ -4,10 +4,13 @@ import { DocumentService } from '@/infrastructure/services/document.service'
 import { PdfProcessingService } from '@/infrastructure/services/pdf-processing.service'
 import { ClientService } from '@/infrastructure/services/client.service'
 import { WebProcessingService } from '@/infrastructure/services/web-processing.service'
+import { DocumentUseCasesFactory } from '@/infrastructure/factories/documents/document-use-cases.factory'
+import { PdfParse } from '@/infrastructure/common/utils/pdf-parse'
 import { Test, TestingModule } from '@nestjs/testing'
 import { HttpModule } from '@nestjs/axios'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule } from '@nestjs/config'
+import { DocumentModule } from '@/infrastructure/modules/document.module'
 
 describe('DocumentController', () => {
   let controller: DocumentController
@@ -17,7 +20,7 @@ describe('DocumentController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule, JwtModule, ConfigModule],
+      imports: [HttpModule, JwtModule, ConfigModule, DocumentModule],
       controllers: [DocumentController],
       providers: [
         WebProcessingService,

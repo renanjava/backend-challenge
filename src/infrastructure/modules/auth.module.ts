@@ -1,12 +1,12 @@
 import { AuthController } from '@/infrastructure/controllers/auth.controller'
 import { AuthService } from '@/infrastructure/services/auth.service'
 import { ClientModule } from '@/infrastructure/modules/client.module'
+import { BcryptPassword } from '@/infrastructure/common/utils/bcrypt-password'
+import { AuthUseCasesFactory } from '@/infrastructure/factories/auth/auth-use-cases.factory'
+import { ClientRepository } from '@/infrastructure/repositories/client.repository'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule, JwtService } from '@nestjs/jwt'
 import { Module } from '@nestjs/common'
-import { BcryptPassword } from '@/infrastructure/common/utils/bcrypt-password'
-import { AuthUseCasesFactory } from '../factories/auth/auth-use-cases.factory'
-import { ClientRepository } from '../repositories/client.repository'
 
 @Module({
   imports: [

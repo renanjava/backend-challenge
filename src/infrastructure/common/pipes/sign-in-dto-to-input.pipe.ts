@@ -3,7 +3,7 @@ import { SignInAdapter } from '@/infrastructure/adapters/auth/sign-in.adapter'
 import { Injectable, PipeTransform } from '@nestjs/common'
 
 @Injectable()
-export class SignInDtoAdapterPipe implements PipeTransform {
+export class SignInDtoToInputPipe implements PipeTransform {
   transform(signInDto: SignInDto) {
     return SignInAdapter.dtoToInput(signInDto)
   }

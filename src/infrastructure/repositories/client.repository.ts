@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common'
 import { DatabaseConnection } from '@/infrastructure/config/database/database.connection'
-import { Client, Prisma } from '@prisma/client'
 import { IClientRepository } from '@/domain/repositories/client.repository'
+import { Client, Prisma } from '@prisma/client'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class ClientRepository implements IClientRepository<Client> {

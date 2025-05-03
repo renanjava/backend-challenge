@@ -1,3 +1,8 @@
+import { ClienteNaoEncontradoError } from '@/application/errors/client/cliente-nao-encontrado.error'
+import { SenhaInvalidaError } from '@/application/errors/auth/senha-invalida.error'
+import { DocumentoPdfInvalidoError } from '@/application/errors/documents/documento-pdf-invalido.error'
+import { DocumentoTituloInvalidoError } from '@/application/errors/documents/documento-titulo-invalido.error'
+import { DocumentoConteudoInvalidoError } from '@/application/errors/documents/documento-conteudo-invalido.error'
 import {
   ExceptionFilter,
   Catch,
@@ -6,8 +11,6 @@ import {
   HttpException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
-import { ClienteNaoEncontradoError } from '@/application/errors/client/cliente-nao-encontrado.error'
-import { SenhaInvalidaError } from '@/application/errors/auth/senha-invalida.error'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -26,6 +29,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof SenhaInvalidaError) {
       status = HttpStatus.UNAUTHORIZED
+      message = exception.message
+    }
+
+    if (exception instanceof DocumentoPdfInvalidoError) {
+      status = HttpStatus.BAD_REQUEST
+      message = exception.message
+    }
+
+    if (exception instanceof DocumentoTituloInvalidoError) {
+      status = HttpStatus.BAD_REQUEST
+      message = exception.message
+    }
+
+    if (exception instanceof DocumentoConteudoInvalidoError) {
+      status = HttpStatus.BAD_REQUEST
       message = exception.message
     }
 
