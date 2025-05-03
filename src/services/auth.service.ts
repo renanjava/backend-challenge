@@ -1,4 +1,4 @@
-import { Injectable /*, UnauthorizedException*/ } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { ClientRepository } from '@/repositories/client.repository'
 import { SignInDto } from '@/dtos/auth/sign-in.dto'

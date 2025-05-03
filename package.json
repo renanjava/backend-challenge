@@ -1,8 +1,8 @@
 {
   "name": "backend-challenge",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Teste técnico para Desenvolvedor Back-end",
+  "author": "Renan Geraldini Leão",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -13,7 +13,6 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
     "test:watch": "jest --watch --runInBand --config ./jest.unit.config.ts",
     "test:cov": "jest --coverage --runInBand --config ./jest.unit.config.ts",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -72,22 +71,5 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

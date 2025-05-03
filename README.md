@@ -22,16 +22,22 @@ Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas 
 
 ## 🔥 Stack Utilizada
 
-- **Node.js**: Plataforma de execução JavaScript.
-- **NestJS**: Framework modular para construção de APIs escaláveis.
-- **PostgreSQL**: Banco de dados relacional.
-- **Prisma**: ORM para manipulação do banco de dados.
-- **JWT**: Autenticação baseada em tokens.
-- **Bcrypt**: Hash seguro de senhas.
-- **Cheerio**: Web scraping para extração de dados de páginas HTML.
-- **PDF-Parse**: Extração de dados de arquivos PDF.
-- **Docker**: Containerização para ambientes de desenvolvimento e produção.
-- **Jest**: Framework de testes unitários e de integração.
+- **Node.js**: v20.12.2
+- **NestJS**: v11.0.1
+- **PostgreSQL**: v17.4
+- **PrismaORM**: v6.7.0
+- **JWT**: v11.0.0
+- **Class-validator**: v0.14.1
+- **Class-transformer**: v0.5.1
+- **Bcrypt**: v3.0.2
+- **Cheerio**: v1.0.0
+- **Axios**: v1.9.0
+- **Prettier**: v3.4.2
+- **Docker**: v26.1.1
+- **Jest**: v29.7.0
+- **Supertest**: v7.0.0
+- **ESLint**: v9.18.0
+- **Prettier**: v3.4.2
 
 ---
 
@@ -90,57 +96,7 @@ No diretório raiz do projeto, execute o seguinte comando para instalar todas as
 npm install
 ```
 
-### 3. **Inicie a aplicação**:
-
-Execute o seguinte comando para iniciar a aplicação em modo de desenvolvimento:
-
-```bash
-npm run start:dev
-```
-
 ## 🖥️ Como Rodar a API
-
-### Ambiente de Desenvolvimento
-
-#### 1. **Inicie os serviços do Docker:**
-
-No diretório do projeto, execute o seguinte comando para subir os contêineres Docker que irão rodar o banco de dados e a aplicação:
-
-```bash
-docker-compose up -d postgres
-```
-
-#### 2. **Instale as dependências:**
-
-No diretório raiz do projeto, execute o seguinte comando para instalar todas as dependências necessárias:
-
-```bash
-npm install
-```
-
-#### 3. **Execute as migrações do Prisma:**
-
-Para configurar o banco de dados com as tabelas necessárias, execute as migrações do Prisma:
-
-```bash
-npx prisma migrate dev
-```
-
-#### 4. **Inicie a aplicação:**
-
-Para iniciar a aplicação, use o seguinte comando:
-
-```bash
-npm run start:dev
-```
-
-#### 5. Acesse a API
-
-Após iniciar a aplicação, ela estará disponível em:
-
-```bash
-http://localhost:3000/
-```
 
 ### Ambiente de Produção
 
@@ -152,13 +108,11 @@ No diretório do projeto, execute o seguinte comando para subir os contêineres 
 docker-compose up -d
 ```
 
-#### 2. Acesse a API
+#### 2. Realize as requisições na aplicação:
 
-Após iniciar a aplicação, ela estará disponível em:
+Após iniciar a aplicação, ela estará disponível em **http://localhost:3000/**:
 
-```bash
-http://localhost:3000/
-```
+- [Acesse a coleção do Postman](https://web.postman.co/workspace/53cf501d-84d9-48e7-a29b-4aa5e5e57a16)
 
 ## 📚 Principais Rotas da API
 
@@ -212,7 +166,9 @@ http://localhost:3000/
 
 - **POST /document/pdf**:
 
-  - Faz upload de um PDF e processa o conteúdo.
+  - Faz upload de um PDF, processa o conteúdo e associa a um cliente.
+  - **Headers**:
+    - `Authorization`: Token JWT válido, usado para obter o ID do cliente.
   - **Body**:
     - `file`: Arquivo PDF.
   - **Resposta**:
@@ -220,11 +176,13 @@ http://localhost:3000/
 
 - **POST /document/web**:
 
-  - Processa uma página web a partir de uma URL.
+  - Processa uma página web a partir de uma URL e associa a um cliente.
+  - **Headers**:
+    - `Authorization`: Token JWT válido, usado para obter o ID do cliente.
   - **Body**:
     - `url`: URL da página web a ser processada.
   - **Resposta**:
-    - `document`: Dados processados da página web.
+    - `document`: Dados processados da página web (como título, conteúdo extraído, data de processamento, etc.).
 
 ## ⚙️ Testes
 
