@@ -5,8 +5,8 @@ import { ClientEntity } from '@/domain/entities/client.entity'
 import { IJwtService } from '@/application/services/jwt-service.interface'
 import { AcessToken } from '@/application/services/acess-token.interface'
 import { IPasswordHashing } from '@/application/common/utils/password-hashing.interface'
-import { ClienteNaoEncontradoError } from '@/application/errors/client/cliente-nao-encontrado.exception'
-import { SenhaInvalidaError } from '@/application/errors/auth/senha-invalida.exception'
+import { ClienteNaoEncontradoError } from '@/application/errors/client/cliente-nao-encontrado.error'
+import { SenhaInvalidaError } from '@/application/errors/auth/senha-invalida.error'
 import { SignInInput } from '@/application/dtos/auth/sign-in.input'
 
 export class SignInUseCase implements IUseCase {

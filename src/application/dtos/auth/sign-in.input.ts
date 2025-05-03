@@ -1,4 +1,6 @@
 export class SignInInput {
-  email: string
-  password: string
+  constructor(
+    public readonly email: string,
+    public readonly password: string,
+  ) {}
 }
