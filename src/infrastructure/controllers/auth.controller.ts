@@ -3,13 +3,17 @@ import { IAuthController } from '@/application/controllers/auth-controller.inter
 import { SignInDto } from '@/infrastructure/dtos/auth/sign-in.dto'
 import { Body, Controller, Post } from '@nestjs/common'
 import { AuthUseCasesFactory } from '../factories/auth/auth-use-cases.factory'
+import { SignInDtoAdapterPipe } from '../common/pipes/sign-in-adapter.pipe'
+import { SignInInput } from '@/application/dtos/auth/sign-in.input'
 
 @Controller('auth')
 export class AuthController implements IAuthController<SignInDto> {
   constructor(private readonly authUseCasesFactory: AuthUseCasesFactory) {}
   @Post('login')
-  async login(@Body() signInDto: SignInDto): Promise<AcessToken> {
+  async login(
+    @Body(SignInDtoAdapterPipe) signInInput: SignInInput,
+  ): Promise<AcessToken> {
     const signInUseCase = this.authUseCasesFactory.getSignInUseCaseInstance()
-    return await signInUseCase.execute(signInDto)
+    return await signInUseCase.execute(signInInput)
   }
 }

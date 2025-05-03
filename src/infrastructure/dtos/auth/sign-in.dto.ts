@@ -8,4 +8,9 @@ export class SignInDto {
   @IsString({ message: 'A senha deve ser uma string' })
   @IsNotEmpty({ message: 'A senha é obrigatória' })
   password: string
+
+  constructor(email: string, password: string) {
+    this.email = email
+    this.password = password
+  }
 }
