@@ -1,3 +1,6 @@
+![Node.js](https://img.shields.io/badge/node.js-v20.12.2-green)
+![NestJS](https://img.shields.io/badge/NestJS-v11.0.1-red)
+
 # Backend Challenge - Processamento de Documentos
 
 ## 📌 Visão Geral
@@ -76,16 +79,14 @@ Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas 
 
 ### Pré-requisitos
 
-- **Node.js**: Certifique-se de ter o Node.js instalado (v20.12 ou superior).
 - **Docker**: Instale o Docker e o Docker Compose para rodar os serviços.
-- **PostgreSQL**: Banco de dados utilizado pela aplicação.
 
 ### Passos para Instalação
 
 ### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/backend-challenge.git
+git clone https://github.com/seu-usuario/backend-challenge
 ```
 
 ### 2. **Instale as dependências**:
@@ -96,9 +97,26 @@ No diretório raiz do projeto, execute o seguinte comando para instalar todas as
 npm install
 ```
 
-## 🖥️ Como Rodar a API
+### 3. Configure as variáveis de ambiente:
 
-### Ambiente de Produção
+Renomeie o arquivo `.env.example` para `.env` com o seguinte comando:
+
+```bash
+mv .env.example .env
+```
+
+### 4. Preencha o arquivo `.env`
+
+Após renomear o `.env.example` para `.env`, preencha o conteúdo do arquivo com os valores abaixo:
+
+```env
+PORT=3000
+DATABASE_NAME=backend_challenge
+DATABASE_URL=postgresql://postgres:password@postgres:5432/${DATABASE_NAME}
+JWT_SECRET=cafecomleite
+```
+
+## 🖥️ Como Rodar a API
 
 #### 1. **Inicie a aplicação pelo Docker-Compose:**
 
@@ -193,7 +211,7 @@ A aplicação conta com testes unitários e de integração utilizando o framewo
 Para executar os testes unitários da aplicação, utilize o seguinte comando:
 
 ```bash
-npm run test
+npm run test:unit
 ```
 
 ### 🔹 Rodar Testes de Integração
