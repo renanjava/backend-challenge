@@ -1,5 +1,5 @@
 import { CreateClientInput } from '@/application/dtos/client/create-client.input'
-import { EmailJaCadastradoError } from '@/application/errors/client/email-ja-cadastrado.exception'
+import { EmailJaCadastradoError } from '@/application/errors/client/email-ja-cadastrado.error'
 import { IUseCase } from '@/application/usecases/use-case.interface'
 import { ClientEntity } from '@/domain/entities/client.entity'
 import { IClientRepository } from '@/domain/repositories/client.repository'

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { TokenInvalidoException } from '@/infrastructure/errors/auth/token-invalido.exception'
+import { TokenInvalidoError } from '@/application/errors/auth/token-invalido.error'
 import {
   CanActivate,
   ExecutionContext,
@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest()
     const token = this.extractTokenFromHeader(request)
     if (!token) {
-      throw new TokenInvalidoException()
+      throw new TokenInvalidoError()
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {

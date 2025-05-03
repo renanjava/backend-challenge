@@ -19,9 +19,15 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+import { IClientController } from '@/application/controllers/client-controller.interface'
+import { ClientEntity } from '@/domain/entities/client.entity'
+import { CreateClientAdapterPipe } from '../common/pipes/create-client-adapter.pipe'
+import { UpdateClientAdapterPipe } from '../common/pipes/update-client-adapter.pipe'
 
 @Controller('client')
-export class ClientController {
+export class ClientController
+  implements IClientController<ClientEntity, CreateClientDto, UpdateClientDto>
+{
   constructor(
     private readonly documentService: DocumentService,
     private readonly clientService: ClientService,
@@ -31,7 +37,8 @@ export class ClientController {
 
   @Post()
   async create(
-    @Body() { password, ...createClientDto }: CreateClientDto,
+    @Body(CreateClientAdapterPipe)
+    { password, ...createClientDto }: CreateClientDto,
     @Body('password', HashPasswordPipe) hashedPassword: string,
   ) {
     const createClientUseCase =
@@ -81,7 +88,7 @@ export class ClientController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateClientDto: UpdateClientDto,
+    @Body(UpdateClientAdapterPipe) updateClientDto: UpdateClientDto,
   ) {
     await this.findOne(id)
     const updateClientUseCase =

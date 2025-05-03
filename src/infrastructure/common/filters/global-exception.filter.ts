@@ -11,7 +11,8 @@ import {
   HttpException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
-import { EmailJaCadastradoError } from '@/application/errors/client/email-ja-cadastrado.exception'
+import { EmailJaCadastradoError } from '@/application/errors/client/email-ja-cadastrado.error'
+import { TokenInvalidoError } from '@/application/errors/auth/token-invalido.error'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -22,6 +23,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR
     let message = 'Erro interno no servidor'
+
+    if (exception instanceof TokenInvalidoError) {
+      status = HttpStatus.UNAUTHORIZED
+      message = exception.message
+    }
 
     if (exception instanceof ClienteNaoEncontradoError) {
       status = HttpStatus.NOT_FOUND

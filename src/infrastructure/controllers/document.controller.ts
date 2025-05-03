@@ -20,9 +20,15 @@ import {
   Req,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { IDocumentController } from '@/application/controllers/document-controller.interface'
+import { DocumentEntity } from '@/domain/entities/document.entity'
+import { CreateDocumentInput } from '@/application/dtos/document/create-document.input'
 
 @Controller('document')
-export class DocumentController {
+export class DocumentController
+  implements
+    IDocumentController<WebDocumentDto, UpdateDocumentDto, DocumentEntity>
+{
   constructor(
     private readonly documentService: DocumentService,
     private readonly clientService: ClientService,
@@ -52,7 +58,7 @@ export class DocumentController {
       content: content,
       sourceType: 'WEB',
       clientId: request.user.sub,
-    })
+    } as CreateDocumentInput)
   }
 
   @Post('web')
@@ -78,7 +84,7 @@ export class DocumentController {
       content: content,
       sourceType: 'PDF',
       clientId: request.user.sub,
-    })
+    } as CreateDocumentInput)
   }
 
   @Get()
