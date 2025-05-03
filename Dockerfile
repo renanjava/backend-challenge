@@ -1,5 +1,4 @@
 FROM node:20.12-alpine AS build
-RUN apk add --no-cache python3 make g++ libc-dev musl-dev
 WORKDIR /build
 COPY prisma/ ./prisma
 COPY package*.json ./

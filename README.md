@@ -118,15 +118,23 @@ JWT_SECRET=cafecomleite
 
 ## 🖥️ Como Rodar a API
 
-#### 1. **Inicie a aplicação pelo Docker-Compose:**
+#### 1. **Buildar a aplicação pelo Docker-Compose:**
 
-No diretório do projeto, execute o seguinte comando para subir os contêineres Docker que irão rodar o banco de dados e a aplicação:
+No diretório do projeto, execute o seguinte comando para buildar as imagens Docker que irão rodar o banco de dados e a aplicação:
 
 ```bash
-docker-compose up -d
+npm run docker:build
 ```
 
-#### 2. Realize as requisições na aplicação:
+#### 2. **Executar a aplicação pelo Docker-Compose:**
+
+Execute o comando para subir os contêineres:
+
+```bash
+npm run docker:up
+```
+
+#### 3. Realize as requisições na aplicação:
 
 Após iniciar a aplicação, ela estará disponível em **http://localhost:3000/**:
 
