@@ -134,57 +134,96 @@ Na pasta `documentation`, você encontrará o arquivo `architecture.md`. Ao abri
 ### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/backend-challenge
+git clone https://github.com/renanjava/backend-challenge
 ```
 
-### 2. **Instale as dependências**:
+### 2. Acesse o diretório:
 
-No diretório raiz do projeto, execute o seguinte comando para instalar todas as dependências necessárias:
+```bash
+cd backend-challenge
+```
+
+### 3. Abra o projeto com o VSCode:
+
+```bash
+code .
+```
+
+### 4. *Instale as dependências*:
+
+No terminal da raiz do diretório do projeto, execute o seguinte comando para instalar todas as dependências necessárias:
 
 ```bash
 npm install
 ```
 
-### 3. Configure as variáveis de ambiente:
+### 5. Configure as variáveis de ambiente:
 
-Renomeie o arquivo `.env.example` para `.env` com o seguinte comando:
+Renomeie o arquivo .env.example para .env com o seguinte comando:
 
 ```bash
 mv .env.example .env
 ```
 
-### 4. Preencha o arquivo `.env`
+### 6. Preencha o arquivo .env
 
-Após renomear o `.env.example` para `.env`, preencha o conteúdo do arquivo com os valores abaixo:
+Após renomear o .env.example para .env, preencha o conteúdo do arquivo com os valores abaixo:
+
 
 ```env
 PORT=3000
 DATABASE_NAME=backend_challenge
-DATABASE_URL=postgresql://postgres:password@postgres:5432/${DATABASE_NAME}
+DATABASE_URL=postgresql://postgres:password@localhost:5432/${DATABASE_NAME}
 JWT_SECRET=cafecomleite
 ```
 
-## 🖥️ Como Rodar a API
+## 🖥 Como Rodar a API
 
-#### 1. **Buildar a aplicação pelo Docker-Compose:**
+### Primeiramente, execute o Docker Desktop em sua máquina antes de seguir os passos.
 
-No diretório do projeto, execute o seguinte comando para buildar as imagens Docker que irão rodar o banco de dados e a aplicação:
+#### 1. _Subir o banco de dados (PostgreSQL) com Docker-Compose:_
+
+No diretório do projeto, execute o seguinte comando para subir apenas o banco de dados:
 
 ```bash
-npm run docker:build
+npm run docker:up:postgres
 ```
 
-#### 2. **Executar a aplicação pelo Docker-Compose:**
+#### 2. _Aplicar as migrações do banco de dados:_
 
-Execute o comando para subir os contêineres:
+Com o banco de dados em execução, aplique as migrações:
+
+```bash
+npx prisma migrate deploy
+```
+
+#### 3. _Gerar o client do Prisma:_
+
+Em seguida, gere o client Prisma:
+
+```bash
+npx prisma generate
+```
+
+#### 4. _Renomear a DATABASE_URL:_
+
+Em seguida, vá no arquivo .env e altere a URL do banco:
+
+```env
+DATABASE_URL=postgresql://postgres:password@postgres:5432/${DATABASE_NAME}
+```
+
+#### 5. _Subir a aplicação com Docker-Compose:_
+
+Agora, inicie o restante dos serviços:
 
 ```bash
 npm run docker:up
 ```
 
-#### 3. Realize as requisições na aplicação:
+#### 6. _Realizar as requisições na aplicação:_
 
-Após iniciar a aplicação, ela estará disponível em **http://localhost:3000/**:
+Após iniciar a aplicação, ela estará disponível em http://localhost:3000/
 
 - [Acesse a coleção do Postman](https://web.postman.co/workspace/53cf501d-84d9-48e7-a29b-4aa5e5e57a16)
 
