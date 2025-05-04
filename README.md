@@ -5,21 +5,7 @@
 
 ## 📌 Visão Geral
 
-Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas web), extrair dados, armazená-los em um banco de dados e associá-los a clientes cadastrados. A aplicação foi construída utilizando **NestJS** e segue boas práticas de desenvolvimento, como Design Pattern Singleton, SOLID, autenticação JWT, e integração com Docker.
-
-### Funcionalidades Principais
-
-- **Cadastro de Clientes**: CRUD completo para gerenciar clientes.
-- **Processamento de Documentos**:
-  - Upload de PDFs e extração de título e conteúdo.
-  - Processamento de páginas web via URL.
-- **Associação de Documentos**: Relacionamento 1:N entre clientes e documentos.
-- **Consultas**:
-  - Listar clientes com contagem de documentos.
-  - Listar documentos de um cliente específico.
-  - Buscar documentos por cliente.
-- **Autenticação JWT**: Proteção de endpoints com autenticação baseada em tokens.
-- **Testes Automatizados**: Cobertura de testes unitários e de integração.
+Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas web), extrair dados, armazená-los em um banco de dados e associá-los a clientes cadastrados. A aplicação foi construída utilizando **NestJS** e segue boas práticas de desenvolvimento, como Clean Architecture, Design Patterns, autenticação JWT, e integração com Docker.
 
 ---
 
@@ -39,41 +25,101 @@ Este projeto é uma API desenvolvida para processar documentos (PDFs e páginas 
 
 ---
 
-## 🔥 Stack Utilizada
-
-- **Node.js**: v20.12.2
-- **NestJS**: v11.0.1
-- **PostgreSQL**: v17.4
-- **PrismaORM**: v6.7.0
-- **JWT**: v11.0.0
-- **Class-validator**: v0.14.1
-- **Class-transformer**: v0.5.1
-- **Bcryptjs**: v3.0.2
-- **Cheerio**: v1.0.0
-- **Axios**: v1.9.0
-- **Docker**: v26.1.1
-- **Jest**: v29.7.0
-- **Supertest**: v7.0.0
-- **ESLint**: v9.18.0
-- **Prettier**: v3.4.2
-- **Rxjs**: v7.8.1
-
----
-
 ## 📂 Estrutura do Projeto
 
 ```plaintext
 /src
-|-- controllers/         # Controladores para gerenciar rotas
-|-- services/            # Lógica de negócios e integração com repositórios
-|-- repositories/        # Acesso ao banco de dados via Prisma
-|-- dtos/                # Data Transfer Objects para validação de dados
-|-- contracts/           # Interfaces e tipos compartilhados
-|-- errors/              # Classes de exceção personalizadas
-|-- config/              # Configurações da aplicação (ex.: banco de dados)
-|-- common/              # Pipes, guards e utilitários
-|-- main.ts              # Arquivo principal da aplicação
+|-- application/        # Camada de aplicação (use cases, DTOs, errors)
+|-- domain/             # Camada de domínio (entidades e interfaces)
+|-- infrastructure/     # Camada de infraestrutura (controllers, adapters, pipes, repositories)
+|-- documentation/      # Documentação do projeto
+|-- main.ts             # Arquivo principal da aplicação
 ```
+
+# 🛠️ Observações sobre a Arquitetura e Design Patterns
+
+## Clean Architecture
+
+- **Separação de Camadas**: O projeto segue a Clean Architecture, separando responsabilidades em camadas (`Domain`, `Application`, `Infrastructure`).
+- **Desacoplamento**: As dependências entre camadas são gerenciadas por interfaces, permitindo substituição e testes independentes.
+
+---
+
+## 📸 Arquitetura do Projeto
+
+Na pasta `documentation`, você encontrará o arquivo `architecture.md`. Ao abrir esse arquivo com o preview, será exibida uma imagem detalhada da arquitetura do projeto, o que ajuda a visualizar melhor a estrutura e o fluxo da aplicação.
+
+---
+
+## Design Patterns e Boas Práticas
+
+### Validação com `class-validator`
+
+- Utilizei `whitelist: true` para ignorar atributos extras no corpo da requisição, garantindo maior segurança e consistência.
+
+### UUID para IDs
+
+- IDs únicos e difíceis de descobrir foram implementados com UUID, garantindo segurança e unicidade.
+
+### PostgreSQL no Docker
+
+- O banco de dados foi configurado no Docker para evitar a necessidade de instalação local.
+
+### Prioridade no Desenvolvimento
+
+- Funcionalidades simples foram desenvolvidas primeiro, deixando as mais complexas, como JWT, para o final. Isso facilitou os testes iniciais.
+
+### CI/CD com GitHub Actions
+
+- Testes automatizados e verificação de código foram configurados para feedback rápido, evitando commits com falhas.
+
+### Segurança com GitHub Secrets e Dotenv
+
+- Variáveis sensíveis, como URL e nome do banco de dados, foram protegidas com `dotenv` e `GitHub Secrets`.
+
+### Prisma ORM
+
+- Escolhido pelo suporte a migrations versionadas, evitando problemas de sincronização com `sync: true`.
+- Utilizei `delete on cascade` para evitar registros órfãos e prevenir erros de remoção.
+- Nomeação com `camelCase` no código e `snake_case` no banco de dados, utilizando o decorator `@map` do Prisma.
+
+### Otimização com Multi-Staged Build
+
+- Imagem Docker otimizada com multi-staged build, reduzindo o tamanho final.
+
+### Abstração com Classes e Pipes
+
+- Classe abstrata para lidar com hashing de senha (`bcrypt`).
+- Pipe para hash de senha antes de chegar ao service, aproveitando os recursos do NestJS.
+
+### Prisma Features
+
+- Uso de `include` e `count` para consultas eficientes.
+
+### Gerenciamento de Módulos
+
+- Separação correta dos módulos, sem duplicação de providers. Tudo é gerenciado por `imports` e `exports` no módulo responsável.
+
+### Desacoplamento de Implementações
+
+- Exceções do framework e métodos de criptografia foram desacoplados, permitindo substituição fácil.
+
+### Tratamento de Erros
+
+- Erros na camada `Application` são usados para lógica de negócio, enquanto erros na `Infrastructure` lidam com detalhes técnicos.
+- Uso de um `Global Filter` para centralizar o tratamento de erros, evitando múltiplos `try-catch` nas controllers.
+
+### Factory Pattern
+
+- Factories foram implementadas para abstrair a complexidade de instanciação dos use cases.
+
+### Adapter Pipe
+
+- Um `SignInAdapterPipe` foi criado para converter DTOs antes de chegar à controller, economizando linhas de código e melhorando a legibilidade.
+
+### Nomes Genéricos
+
+- Nomes genéricos foram usados para abstrações, enquanto implementações específicas utilizam o nome da biblioteca.
 
 ---
 
