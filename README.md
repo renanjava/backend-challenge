@@ -233,3 +233,11 @@ Para executar os testes de integração, utilize o seguinte comando:
 ```bash
 npm run test:int
 ```
+
+### 🔹 Rodar Testes com Cobertura de Código
+
+Para executar os testes com cobertura de código, utilize o seguinte comando:
+
+```bash
+npm run test:cov
+```

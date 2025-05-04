@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { HttpExceptionFilter } from '@/infrastructure/common/filters/global-exception.filter'
 
-export async function bootstrap() {
+async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
   const configService = app.get(ConfigService)
